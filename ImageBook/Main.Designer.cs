@@ -106,6 +106,7 @@
             this.tbSearch.Name = "tbSearch";
             this.tbSearch.Size = new System.Drawing.Size(187, 20);
             this.tbSearch.TabIndex = 0;
+            this.tbSearch.TextChanged += new System.EventHandler(this.tbSearch_TextChanged);
             // 
             // pnlContent
             // 
