@@ -82,6 +82,7 @@
             // 
             // btNext
             // 
+            this.btNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btNext.Location = new System.Drawing.Point(507, 12);
             this.btNext.Name = "btNext";
             this.btNext.Size = new System.Drawing.Size(75, 23);
@@ -91,6 +92,7 @@
             // 
             // btPrev
             // 
+            this.btPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btPrev.Location = new System.Drawing.Point(425, 12);
             this.btPrev.Name = "btPrev";
             this.btPrev.Size = new System.Drawing.Size(75, 23);
