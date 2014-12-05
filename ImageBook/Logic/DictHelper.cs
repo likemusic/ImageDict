@@ -34,7 +34,7 @@ namespace ImageBook.Logic
             return Ret;
         }
 
-        public string GetFilenameBySearchString(string SearchString, DictData DictData)
+        public string GetFilenameBySearchString(string SearchString, DictData DictData, out int PageNumber)
         {
             SearchString = SearchString.Trim().ToUpper();
             Dictionary<string, int> Content = DictData.Contents;
@@ -52,7 +52,15 @@ namespace ImageBook.Logic
                 else SaveNumber = NewNumber;
             }
             SaveNumber += DictData.StartOffset;
-            string Filename = SaveNumber.ToString(DictData.FileFormatString) + ".jpg";
+
+            string Filename = GetFilenameByPageNumber(SaveNumber, DictData);
+            PageNumber = SaveNumber;
+            return Filename;
+        }
+
+        public string GetFilenameByPageNumber(int PageNumber, DictData DictData)
+        {
+            string Filename = PageNumber.ToString(DictData.FileFormatString) + ".jpg";
             Filename = Path.Combine(DictData.SourceDir, Filename);
             return Filename;
         }

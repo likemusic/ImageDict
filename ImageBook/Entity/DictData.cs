@@ -11,5 +11,8 @@ namespace ImageBook.Entity
         public int StartOffset { get; set; }
         public string SourceDir { get; set; }
         public string FileFormatString { get; set; }
+
+        public int MinPage{ get { return StartOffset; } }
+        public int MaxPage { get { return StartOffset + Contents.Count; } }
     }
 }

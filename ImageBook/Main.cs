@@ -32,8 +32,10 @@ namespace ImageBook
         private void tbSearch_TextChanged(object sender, EventArgs e)
         {
             var TextBox = sender as TextBox;
-            string ImageFilename = DictHelper.GetFilenameBySearchString(TextBox.Text, EnvData.DictData);
-            ShowImage(ImageFilename);
+            int PageNumber;
+            string ImageFilename = DictHelper.GetFilenameBySearchString(TextBox.Text, EnvData.DictData, out PageNumber);
+            EnvData.CurrentPage = PageNumber;
+            ShowImageByFilename(ImageFilename);
         }
 
         private void btLitAE_Click(object sender, EventArgs e)
@@ -58,7 +60,7 @@ namespace ImageBook
         #endregion
 
         #region Helper Funcs
-        protected void ShowImage(string Filename)
+        protected void ShowImageByFilename(string Filename)
         {
             try
             {
@@ -69,6 +71,12 @@ namespace ImageBook
             {
                 NotifyHelper.ShowError("Can't load image:" + Ex.Message);
             }
+        }
+
+        protected void ShowImageByPageNum(int PageNum)
+        {
+            string Filename = DictHelper.GetFilenameByPageNumber(PageNum, EnvData.DictData);
+            ShowImageByFilename(Filename);
         }
 
         protected void CenterPictureBox()
@@ -82,8 +90,35 @@ namespace ImageBook
             if (ParentSize.Height > pbContetn.Height)
                 Y = ((ParentSize.Height - pbContetn.Height) / 2) + AutoScrollPosition.Y;
             pbContetn.Location = new Point(X, Y);
-            //pbContetn.Refresh();
         }
         #endregion
+
+        private void btPrev_Click(object sender, EventArgs e)
+        {
+            int CurrentPage = EnvData.CurrentPage;
+            int MinPage = EnvData.DictData.MinPage;
+
+            if(CurrentPage == EnvData.DictData.MaxPage) btNext.Enabled = true;
+
+            CurrentPage--;
+            if (CurrentPage < MinPage) CurrentPage = MinPage;
+            if (CurrentPage == MinPage) btPrev.Enabled = false;
+            EnvData.CurrentPage = CurrentPage;
+            ShowImageByPageNum(CurrentPage);
+        }
+
+        private void btNext_Click(object sender, EventArgs e)
+        {
+            int CurrentPage = EnvData.CurrentPage;
+            int MaxPage = EnvData.DictData.MaxPage;
+
+            if (CurrentPage == EnvData.DictData.MinPage) btPrev.Enabled = true;
+
+            CurrentPage++;
+            if (CurrentPage > MaxPage) CurrentPage = MaxPage;
+            if (CurrentPage == MaxPage) btNext.Enabled = false;
+            EnvData.CurrentPage = CurrentPage;
+            ShowImageByPageNum(CurrentPage);
+        }
     }
 }

@@ -95,6 +95,7 @@
             this.btNext.TabIndex = 2;
             this.btNext.Text = ">>";
             this.btNext.UseVisualStyleBackColor = true;
+            this.btNext.Click += new System.EventHandler(this.btNext_Click);
             // 
             // btPrev
             // 
@@ -104,6 +105,7 @@
             this.btPrev.TabIndex = 1;
             this.btPrev.Text = "<<";
             this.btPrev.UseVisualStyleBackColor = true;
+            this.btPrev.Click += new System.EventHandler(this.btPrev_Click);
             // 
             // tbSearch
             // 
