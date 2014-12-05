@@ -15,13 +15,15 @@ namespace ImageBook.Logic
             string ContentFilename = Path.Combine(Directory, DefaultSettings.DefaultContentsListFilename);
 
             var ContentsList = LoadContentsListFromTxtFile(ContentFilename);
-
+            DictDataSettings DictDataSettings = GetDictDataSettings(Directory);
             var Ret = new DictData()
             {
                 Contents = ContentsList,
-                FileFormatString = DefaultSettings.DefaultFileFormatString,
+                FileFormatString = DictDataSettings.FileFormatString,
                 SourceDir = Directory,
-                StartOffset = DefaultSettings.DefaultStartOffset
+                StartOffset = DictDataSettings.StartOffset,
+                MinPage = DictDataSettings.MinPage,
+                MaxPage = (DictDataSettings.MaxPage == 0) ? (DictDataSettings.MinPage + ContentsList.Count) : DictDataSettings.MaxPage
             };
             return Ret;
         }
@@ -63,6 +65,27 @@ namespace ImageBook.Logic
             string Filename = PageNumber.ToString(DictData.FileFormatString) + ".jpg";
             Filename = Path.Combine(DictData.SourceDir, Filename);
             return Filename;
+        }
+
+        protected DictDataSettings GetDictDataSettings(string Directory)
+        {
+            DictDataSettings Ret;
+            string Filename = Path.Combine(Directory, Properties.Settings.Default.DefaultSettingsFilename);
+            if (File.Exists(Filename))
+            {
+                Ret = JsonSerializer.Deserialize<DictDataSettings>(Filename);
+            }
+            else
+            {
+                var DefultSettings = Properties.Settings.Default;
+                Ret = new DictDataSettings
+                {
+                    FileFormatString = DefultSettings.DefaultFileFormatString,
+                    StartOffset = DefultSettings.DefaultStartOffset
+                };
+                //JsonSerializer.Serialize<DictDataSettings>(Ret, Filename);
+            }
+            return Ret;
         }
     }
 }

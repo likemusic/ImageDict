@@ -14,5 +14,8 @@
     <Setting Name="DefaultFileFormatString" Type="System.String" Scope="User">
       <Value Profile="(Default)">0000</Value>
     </Setting>
+    <Setting Name="DefaultSettingsFilename" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Settings.json</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

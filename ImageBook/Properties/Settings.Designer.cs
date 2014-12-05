@@ -70,5 +70,17 @@ namespace ImageBook.Properties {
                 this["DefaultFileFormatString"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Settings.json")]
+        public string DefaultSettingsFilename {
+            get {
+                return ((string)(this["DefaultSettingsFilename"]));
+            }
+            set {
+                this["DefaultSettingsFilename"] = value;
+            }
+        }
     }
 }
