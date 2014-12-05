@@ -5,7 +5,9 @@ using System.Text;
 
 namespace ImageBook.Entity
 {
-    class EnvData
+    public class EnvData
     {
+        public DictData DictData { get; set; }
+        public int CurrentPage {get;set;}
     }
 }

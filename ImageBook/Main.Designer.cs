@@ -44,6 +44,7 @@
             // 
             // pnlTop
             // 
+            this.pnlTop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlTop.Controls.Add(this.btLitA);
             this.pnlTop.Controls.Add(this.btLitO);
             this.pnlTop.Controls.Add(this.btLitAE);
@@ -124,6 +125,7 @@
             // pnlContent
             // 
             this.pnlContent.AutoScroll = true;
+            this.pnlContent.BackColor = System.Drawing.SystemColors.ControlDark;
             this.pnlContent.Controls.Add(this.pbContetn);
             this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlContent.Location = new System.Drawing.Point(0, 80);

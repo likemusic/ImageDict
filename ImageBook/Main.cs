@@ -14,36 +14,55 @@ namespace ImageBook
 {
     public partial class Main : Form
     {
-        //protected Env Env;
-        //protected EnvData EnvData;
-        protected Dictionary<string,int> CurrentContentsList;
-        protected ContentsListHelper ContentHelper = new ContentsListHelper();
+        protected DictHelper DictHelper = new DictHelper();
+        protected DictData DictData;
+
+        protected Env Env = new Env();
+        protected EnvData EnvData = new EnvData();
+        
         protected NotifyHelper NotifyHelper = new NotifyHelper();
 
         public Main()
         {
             InitializeComponent();
-            var DefaultSettings = Properties.Settings.Default;
-            string DefaultContentFilename = Path.Combine(DefaultSettings.DefaultDataDirectory,DefaultSettings.DefaultContentsListFilename);
-
-            var ContentsListHelper = new ContentsListHelper();
-            CurrentContentsList = ContentsListHelper.LoadFromTxtFile(DefaultContentFilename);
+            EnvData.DictData = DictHelper.OpenFromDir(ImageBook.Properties.Settings.Default.DefaultSourceDir);
         }
 
+        #region Controls Handlers
         private void tbSearch_TextChanged(object sender, EventArgs e)
         {
             var TextBox = sender as TextBox;
-            string ImageFilename = ContentHelper.GetFilenameBySearchString(TextBox.Text, CurrentContentsList);
+            string ImageFilename = DictHelper.GetFilenameBySearchString(TextBox.Text, EnvData.DictData);
             ShowImage(ImageFilename);
         }
 
+        private void btLitAE_Click(object sender, EventArgs e)
+        {
+            tbSearch.Text = tbSearch.Text.Insert(tbSearch.SelectionStart, "Æ");
+        }
+
+        private void btLitO_Click(object sender, EventArgs e)
+        {
+            tbSearch.Text = tbSearch.Text.Insert(tbSearch.SelectionStart, "Ø");
+        }
+
+        private void btLitA_Click(object sender, EventArgs e)
+        {
+            tbSearch.Text = tbSearch.Text.Insert(tbSearch.SelectionStart, "Å");
+        }
+
+        private void pnlContent_Resize(object sender, EventArgs e)
+        {
+            CenterPictureBox();
+        }
+        #endregion
+
+        #region Helper Funcs
         protected void ShowImage(string Filename)
         {
-            //MessageBox.Show(Filename);
-            string FullFilename = Path.Combine(Properties.Settings.Default.DefaultDataDirectory,Filename);
             try
             {
-                pbContetn.Image = Image.FromFile(FullFilename);
+                pbContetn.Image = Image.FromFile(Filename);
                 CenterPictureBox();
             }
             catch (Exception Ex)
@@ -65,25 +84,6 @@ namespace ImageBook
             pbContetn.Location = new Point(X, Y);
             //pbContetn.Refresh();
         }
-
-        private void btLitAE_Click(object sender, EventArgs e)
-        {
-            tbSearch.Text = tbSearch.Text.Insert(tbSearch.SelectionStart,"Æ");
-        }
-
-        private void btLitO_Click(object sender, EventArgs e)
-        {
-            tbSearch.Text = tbSearch.Text.Insert(tbSearch.SelectionStart, "Ø");
-        }
-
-        private void btLitA_Click(object sender, EventArgs e)
-        {
-            tbSearch.Text = tbSearch.Text.Insert(tbSearch.SelectionStart, "Å");
-        }
-
-        private void pnlContent_Resize(object sender, EventArgs e)
-        {
-            CenterPictureBox();
-        }
+        #endregion
     }
 }

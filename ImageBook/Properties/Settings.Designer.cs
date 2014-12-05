@@ -25,18 +25,6 @@ namespace ImageBook.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data")]
-        public string DefaultDataDirectory {
-            get {
-                return ((string)(this["DefaultDataDirectory"]));
-            }
-            set {
-                this["DefaultDataDirectory"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Content.txt")]
         public string DefaultContentsListFilename {
             get {
@@ -44,6 +32,42 @@ namespace ImageBook.Properties {
             }
             set {
                 this["DefaultContentsListFilename"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data")]
+        public string DefaultSourceDir {
+            get {
+                return ((string)(this["DefaultSourceDir"]));
+            }
+            set {
+                this["DefaultSourceDir"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DefaultStartOffset {
+            get {
+                return ((int)(this["DefaultStartOffset"]));
+            }
+            set {
+                this["DefaultStartOffset"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0000")]
+        public string DefaultFileFormatString {
+            get {
+                return ((string)(this["DefaultFileFormatString"]));
+            }
+            set {
+                this["DefaultFileFormatString"] = value;
             }
         }
     }

@@ -2,11 +2,17 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ImageBook.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="DefaultDataDirectory" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Data</Value>
-    </Setting>
     <Setting Name="DefaultContentsListFilename" Type="System.String" Scope="User">
       <Value Profile="(Default)">Content.txt</Value>
+    </Setting>
+    <Setting Name="DefaultSourceDir" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Data</Value>
+    </Setting>
+    <Setting Name="DefaultStartOffset" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="DefaultFileFormatString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0000</Value>
     </Setting>
   </Settings>
 </SettingsFile>

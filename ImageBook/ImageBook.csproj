@@ -47,7 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\EnvData.cs" />
-    <Compile Include="Logic\ContentsListHelper.cs" />
+    <Compile Include="Entity\DictData.cs" />
+    <Compile Include="Logic\DictHelper.cs" />
     <Compile Include="Logic\Env.cs" />
     <Compile Include="Logic\GenericSerializer.cs" />
     <Compile Include="Logic\NotifyHelper.cs" />
