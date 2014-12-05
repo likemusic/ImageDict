@@ -35,8 +35,11 @@
             this.btNext = new System.Windows.Forms.Button();
             this.btPrev = new System.Windows.Forms.Button();
             this.tbSearch = new System.Windows.Forms.TextBox();
+            this.pbContetn = new System.Windows.Forms.PictureBox();
             this.pnlContent = new System.Windows.Forms.Panel();
             this.pnlTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbContetn)).BeginInit();
+            this.pnlContent.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlTop
@@ -50,7 +53,7 @@
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(594, 48);
+            this.pnlTop.Size = new System.Drawing.Size(594, 80);
             this.pnlTop.TabIndex = 0;
             // 
             // btLitA
@@ -61,6 +64,7 @@
             this.btLitA.TabIndex = 5;
             this.btLitA.Text = "Å";
             this.btLitA.UseVisualStyleBackColor = true;
+            this.btLitA.Click += new System.EventHandler(this.btLitA_Click);
             // 
             // btLitO
             // 
@@ -70,6 +74,7 @@
             this.btLitO.TabIndex = 4;
             this.btLitO.Text = "Ø";
             this.btLitO.UseVisualStyleBackColor = true;
+            this.btLitO.Click += new System.EventHandler(this.btLitO_Click);
             // 
             // btLitAE
             // 
@@ -79,11 +84,11 @@
             this.btLitAE.TabIndex = 3;
             this.btLitAE.Text = "Æ";
             this.btLitAE.UseVisualStyleBackColor = true;
+            this.btLitAE.Click += new System.EventHandler(this.btLitAE_Click);
             // 
             // btNext
             // 
-            this.btNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btNext.Location = new System.Drawing.Point(507, 12);
+            this.btNext.Location = new System.Drawing.Point(110, 45);
             this.btNext.Name = "btNext";
             this.btNext.Size = new System.Drawing.Size(75, 23);
             this.btNext.TabIndex = 2;
@@ -92,8 +97,7 @@
             // 
             // btPrev
             // 
-            this.btPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btPrev.Location = new System.Drawing.Point(425, 12);
+            this.btPrev.Location = new System.Drawing.Point(28, 45);
             this.btPrev.Name = "btPrev";
             this.btPrev.Size = new System.Drawing.Size(75, 23);
             this.btPrev.TabIndex = 1;
@@ -108,13 +112,25 @@
             this.tbSearch.TabIndex = 0;
             this.tbSearch.TextChanged += new System.EventHandler(this.tbSearch_TextChanged);
             // 
+            // pbContetn
+            // 
+            this.pbContetn.Location = new System.Drawing.Point(0, 0);
+            this.pbContetn.Name = "pbContetn";
+            this.pbContetn.Size = new System.Drawing.Size(100, 50);
+            this.pbContetn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbContetn.TabIndex = 1;
+            this.pbContetn.TabStop = false;
+            // 
             // pnlContent
             // 
+            this.pnlContent.AutoScroll = true;
+            this.pnlContent.Controls.Add(this.pbContetn);
             this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlContent.Location = new System.Drawing.Point(0, 48);
+            this.pnlContent.Location = new System.Drawing.Point(0, 80);
             this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Size = new System.Drawing.Size(594, 214);
-            this.pnlContent.TabIndex = 1;
+            this.pnlContent.Size = new System.Drawing.Size(594, 182);
+            this.pnlContent.TabIndex = 2;
+            this.pnlContent.Resize += new System.EventHandler(this.pnlContent_Resize);
             // 
             // Main
             // 
@@ -127,6 +143,9 @@
             this.Text = "ImageBook";
             this.pnlTop.ResumeLayout(false);
             this.pnlTop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbContetn)).EndInit();
+            this.pnlContent.ResumeLayout(false);
+            this.pnlContent.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -140,6 +159,7 @@
         private System.Windows.Forms.Button btNext;
         private System.Windows.Forms.Button btPrev;
         private System.Windows.Forms.TextBox tbSearch;
+        private System.Windows.Forms.PictureBox pbContetn;
         private System.Windows.Forms.Panel pnlContent;
     }
 }

@@ -50,6 +50,7 @@
     <Compile Include="Logic\ContentsListHelper.cs" />
     <Compile Include="Logic\Env.cs" />
     <Compile Include="Logic\GenericSerializer.cs" />
+    <Compile Include="Logic\NotifyHelper.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
