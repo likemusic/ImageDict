@@ -35,11 +35,11 @@
             this.btNext = new System.Windows.Forms.Button();
             this.btPrev = new System.Windows.Forms.Button();
             this.tbSearch = new System.Windows.Forms.TextBox();
-            this.pbContetn = new System.Windows.Forms.PictureBox();
-            this.pnlContent = new System.Windows.Forms.Panel();
+            this.pnlContent = new ImageBook.Controls.SelectablePanel();
+            this.pbContent = new System.Windows.Forms.PictureBox();
             this.pnlTop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbContetn)).BeginInit();
             this.pnlContent.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbContent)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlTop
@@ -115,28 +115,33 @@
             this.tbSearch.TabIndex = 0;
             this.tbSearch.TextChanged += new System.EventHandler(this.tbSearch_TextChanged);
             // 
-            // pbContetn
-            // 
-            this.pbContetn.Location = new System.Drawing.Point(0, 0);
-            this.pbContetn.Name = "pbContetn";
-            this.pbContetn.Size = new System.Drawing.Size(100, 50);
-            this.pbContetn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbContetn.TabIndex = 1;
-            this.pbContetn.TabStop = false;
-            // 
             // pnlContent
             // 
             this.pnlContent.AutoScroll = true;
             this.pnlContent.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pnlContent.Controls.Add(this.pbContetn);
+            this.pnlContent.Controls.Add(this.pbContent);
             this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlContent.Location = new System.Drawing.Point(0, 80);
             this.pnlContent.Name = "pnlContent";
             this.pnlContent.Size = new System.Drawing.Size(594, 182);
-            this.pnlContent.TabIndex = 0;
+            this.pnlContent.TabIndex = 6;
             this.pnlContent.TabStop = true;
             this.pnlContent.Click += new System.EventHandler(this.pnlContent_Click);
             this.pnlContent.Resize += new System.EventHandler(this.pnlContent_Resize);
+            // 
+            // pbContent
+            // 
+            this.pbContent.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbContent.Location = new System.Drawing.Point(0, 0);
+            this.pbContent.Name = "pbContent";
+            this.pbContent.Size = new System.Drawing.Size(100, 50);
+            this.pbContent.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbContent.TabIndex = 1;
+            this.pbContent.TabStop = false;
+            this.pbContent.Click += new System.EventHandler(this.pbContent_Click);
+            this.pbContent.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbContent_MouseDown);
+            this.pbContent.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbContent_MouseMove);
+            this.pbContent.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbContent_MouseUp);
             // 
             // Main
             // 
@@ -149,9 +154,9 @@
             this.Text = "ImageBook";
             this.pnlTop.ResumeLayout(false);
             this.pnlTop.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbContetn)).EndInit();
             this.pnlContent.ResumeLayout(false);
             this.pnlContent.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbContent)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -165,8 +170,10 @@
         private System.Windows.Forms.Button btNext;
         private System.Windows.Forms.Button btPrev;
         private System.Windows.Forms.TextBox tbSearch;
-        private System.Windows.Forms.PictureBox pbContetn;
-        private System.Windows.Forms.Panel pnlContent;
+        private System.Windows.Forms.PictureBox pbContent;
+        //private ImageBook.Controls.SelectablePictureBox pbContent;
+        //private System.Windows.Forms.Panel pnlContent;
+        private ImageBook.Controls.SelectablePanel pnlContent;
     }
 }
 

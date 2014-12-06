@@ -22,12 +22,27 @@ namespace ImageBook
         
         protected NotifyHelper NotifyHelper = new NotifyHelper();
 
+        protected bool IsMoveContent;
+        int clickOffsetX;
+        int clickOffsetY;
+
+        int scrollOffsetX;
+        int scrollOffsetY;
+
+        protected int LastScrollYDelta;
+
+        protected Cursor HandOpenCursor, HandMoveCursor;
+
         public Main()
         {
             InitializeComponent();
             EnvData.DictData = DictHelper.OpenFromDir(ImageBook.Properties.Settings.Default.DefaultSourceDir);
             //pnlContent.KeyPress += new KeyPressEventHandler(pnlContent_KeyPress);
             pnlContent.KeyDown += new KeyEventHandler(pnlContent_KeyDown);
+
+            HandOpenCursor = new Cursor(new System.IO.MemoryStream(Properties.Resources.HandOpen));
+            HandMoveCursor = new Cursor(new System.IO.MemoryStream(Properties.Resources.HandMove));
+            pbContent.Cursor = HandOpenCursor;
         }
 
         #region Controls Handlers
@@ -66,7 +81,7 @@ namespace ImageBook
         {
             try
             {
-                pbContetn.Image = Image.FromFile(Filename);
+                pbContent.Image = Image.FromFile(Filename);
                 //button1.Image = Image.FromFile(Filename);
                 CenterPictureBox();
             }
@@ -84,15 +99,15 @@ namespace ImageBook
 
         protected void CenterPictureBox()
         {
-            var ParentSize = pbContetn.Parent.Size;
+            var ParentSize = pbContent.Parent.Size;
             var AutoScrollPosition = pnlContent.AutoScrollPosition;
             int X=AutoScrollPosition.X, Y=AutoScrollPosition.Y;
-            if (ParentSize.Width > pbContetn.Width)
-                X = ((ParentSize.Width - pbContetn.Width) / 2) + AutoScrollPosition.X;
+            if (ParentSize.Width > pbContent.Width)
+                X = ((ParentSize.Width - pbContent.Width) / 2) + AutoScrollPosition.X;
 
-            if (ParentSize.Height > pbContetn.Height)
-                Y = ((ParentSize.Height - pbContetn.Height) / 2) + AutoScrollPosition.Y;
-            pbContetn.Location = new Point(X, Y);
+            if (ParentSize.Height > pbContent.Height)
+                Y = ((ParentSize.Height - pbContent.Height) / 2) + AutoScrollPosition.Y;
+            pbContent.Location = new Point(X, Y);
         }
         #endregion
 
@@ -209,6 +224,60 @@ namespace ImageBook
             bool IsAdd = true;
             bool IsLarge = false;
             ScrollAny(pnlContent, pnlContent.HorizontalScroll, IsAdd, IsLarge);
+        }
+
+        private void pbContent_Click(object sender, EventArgs e)
+        {
+            var ImageBox = (PictureBox)sender;
+            ImageBox.Parent.Focus();
+        }
+
+        private void pbContent_MouseDown(object sender, MouseEventArgs e)
+        {
+            IsMoveContent = true;
+            Cursor.Current = HandMoveCursor;
+            var MousePosition = Control.MousePosition;
+            clickOffsetX = MousePosition.X;
+            clickOffsetY = MousePosition.Y;
+
+            scrollOffsetX = pnlContent.HorizontalScroll.Value;
+            scrollOffsetY = pnlContent.VerticalScroll.Value;
+            //pnlContent.SuspendLayout();
+        }
+
+        private void pbContent_MouseUp(object sender, MouseEventArgs e)
+        {
+            IsMoveContent = false;
+            Cursor.Current = HandOpenCursor;
+        }
+
+        private void pbContent_MouseMove(object sender, MouseEventArgs e)
+        {
+            Control c = sender as Control;
+            if (IsMoveContent == true)
+            {
+                var ParentPanel = (Panel) c.Parent;
+                var MousePosition = Control.MousePosition;
+
+                int newOffsetX = MousePosition.X;
+                int newkOffsetY = MousePosition.Y;
+
+                int deltaX = newOffsetX - clickOffsetX;
+                int deltaY = newkOffsetY - clickOffsetY;
+
+                int NewX = scrollOffsetX - deltaX;
+                int NewY = scrollOffsetY - deltaY;
+                LastScrollYDelta = deltaY;
+                if (NewX < ParentPanel.HorizontalScroll.Minimum) NewX = ParentPanel.HorizontalScroll.Minimum;
+                if (NewX > ParentPanel.HorizontalScroll.Maximum) NewX = ParentPanel.HorizontalScroll.Maximum;
+
+                if (NewY < ParentPanel.VerticalScroll.Minimum) NewY = ParentPanel.VerticalScroll.Minimum;
+                if (NewY > ParentPanel.VerticalScroll.Maximum) NewY = ParentPanel.VerticalScroll.Maximum;
+
+                if (NewY != ParentPanel.VerticalScroll.Value) ParentPanel.VerticalScroll.Value = NewY;
+                if (NewX != ParentPanel.HorizontalScroll.Value) ParentPanel.HorizontalScroll.Value = NewX;
+                //pnlContent.PerformLayout();
+            }
         }
     }
 }
