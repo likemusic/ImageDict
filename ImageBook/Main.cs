@@ -6,11 +6,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ImageBook.Entity;
-using ImageBook.Logic;
+using ImageDict.Entity;
+using ImageDict.Logic;
 using System.IO;
 
-namespace ImageBook
+namespace ImageDict
 {
     public partial class Main : Form
     {
@@ -36,7 +36,7 @@ namespace ImageBook
         public Main()
         {
             InitializeComponent();
-            EnvData.DictData = DictHelper.OpenFromDir(ImageBook.Properties.Settings.Default.DefaultSourceDir);
+            EnvData.DictData = DictHelper.OpenFromDir(ImageDict.Properties.Settings.Default.DefaultSourceDir);
             //pnlContent.KeyPress += new KeyPressEventHandler(pnlContent_KeyPress);
             pnlContent.KeyDown += new KeyEventHandler(pnlContent_KeyDown);
 

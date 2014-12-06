@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ImageBook.Entity;
+using ImageDict.Entity;
 using System.IO;
 
-namespace ImageBook.Logic
+namespace ImageDict.Logic
 {
     public class DictHelper
     {

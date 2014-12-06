@@ -1,4 +1,4 @@
-﻿namespace ImageBook
+﻿namespace ImageDict
 {
     partial class Main
     {
@@ -35,7 +35,7 @@
             this.btNext = new System.Windows.Forms.Button();
             this.btPrev = new System.Windows.Forms.Button();
             this.tbSearch = new System.Windows.Forms.TextBox();
-            this.pnlContent = new ImageBook.Controls.SelectablePanel();
+            this.pnlContent = new ImageDict.Controls.SelectablePanel();
             this.pbContent = new System.Windows.Forms.PictureBox();
             this.pnlTop.SuspendLayout();
             this.pnlContent.SuspendLayout();
@@ -151,7 +151,7 @@
             this.Controls.Add(this.pnlContent);
             this.Controls.Add(this.pnlTop);
             this.Name = "Main";
-            this.Text = "ImageBook";
+            this.Text = "ImageDict";
             this.pnlTop.ResumeLayout(false);
             this.pnlTop.PerformLayout();
             this.pnlContent.ResumeLayout(false);
@@ -171,9 +171,9 @@
         private System.Windows.Forms.Button btPrev;
         private System.Windows.Forms.TextBox tbSearch;
         private System.Windows.Forms.PictureBox pbContent;
-        //private ImageBook.Controls.SelectablePictureBox pbContent;
+        //private ImageDict.Controls.SelectablePictureBox pbContent;
         //private System.Windows.Forms.Panel pnlContent;
-        private ImageBook.Controls.SelectablePanel pnlContent;
+        private ImageDict.Controls.SelectablePanel pnlContent;
     }
 }
 

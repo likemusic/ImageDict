@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace ImageBook.Controls
+namespace ImageDict.Controls
 {
     class SelectablePictureBox : PictureBox
     {

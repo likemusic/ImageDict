@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ImageBook.Controls
+namespace ImageDict.Controls
 {
     class SelectablePanel : Panel
     {

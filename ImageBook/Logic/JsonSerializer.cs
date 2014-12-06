@@ -6,7 +6,7 @@ using System.Runtime.Serialization.Json;
 using System.IO;
 using System.Xml;
 
-namespace ImageBook.Logic
+namespace ImageDict.Logic
 {
     public class JsonSerializer
     {

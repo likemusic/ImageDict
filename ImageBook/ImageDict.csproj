@@ -8,8 +8,8 @@
     <ProjectGuid>{8243E742-F014-472C-8003-EAF98A8320C7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ImageBook</RootNamespace>
-    <AssemblyName>ImageBook</AssemblyName>
+    <RootNamespace>ImageDict</RootNamespace>
+    <AssemblyName>ImageDict</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
