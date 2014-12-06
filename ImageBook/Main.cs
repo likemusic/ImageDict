@@ -168,6 +168,12 @@ namespace ImageDict
                 case Keys.Left:
                     ScrollLeft();
                     break;
+                case Keys.Home:
+                    ScrollToTop();
+                    break;
+                case Keys.End:
+                    ScrollToBottom();
+                    break;
             }
         }
 
@@ -182,6 +188,18 @@ namespace ImageDict
             if( (IsAdd && (NewValue>Limit)) || (!IsAdd && (NewValue<Limit)) ) NewValue = Limit;
             Scroll.Value = NewValue;
             Panel.PerformLayout();
+        }
+
+        protected void ScrollToTop()
+        {
+            pnlContent.VerticalScroll.Value = pnlContent.VerticalScroll.Minimum;
+            pnlContent.PerformLayout();
+        }
+
+        protected void ScrollToBottom()
+        {
+            pnlContent.VerticalScroll.Value = pnlContent.VerticalScroll.Maximum;
+            pnlContent.PerformLayout();
         }
 
         protected void ScrollPageDown()
