@@ -26,6 +26,8 @@ namespace ImageBook
         {
             InitializeComponent();
             EnvData.DictData = DictHelper.OpenFromDir(ImageBook.Properties.Settings.Default.DefaultSourceDir);
+            //pnlContent.KeyPress += new KeyPressEventHandler(pnlContent_KeyPress);
+            pnlContent.KeyDown += new KeyEventHandler(pnlContent_KeyDown);
         }
 
         #region Controls Handlers
@@ -65,6 +67,7 @@ namespace ImageBook
             try
             {
                 pbContetn.Image = Image.FromFile(Filename);
+                //button1.Image = Image.FromFile(Filename);
                 CenterPictureBox();
             }
             catch (Exception Ex)
@@ -119,6 +122,93 @@ namespace ImageBook
             if (CurrentPage == MaxPage) btNext.Enabled = false;
             EnvData.CurrentPage = CurrentPage;
             ShowImageByPageNum(CurrentPage);
+        }
+
+        private void pnlContent_Click(object sender, EventArgs e)
+        {
+            var Panel = (Panel)sender;
+            Panel.Focus();
+        }
+
+        private void pnlContent_KeyDown(Object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.PageDown:
+                case Keys.Space:
+                    ScrollPageDown();
+                    break;
+                case Keys.PageUp:
+                    ScrollPageUp();
+                    break;
+                case Keys.Up:
+                    ScrollUp();
+                    break;
+                case Keys.Down:
+                    ScrollDown();
+                    break;
+                case Keys.Right:
+                    ScrollRight();
+                    break;
+                case Keys.Left:
+                    ScrollLeft();
+                    break;
+            }
+        }
+
+        protected void ScrollAny(Panel Panel, ScrollProperties Scroll, bool IsAdd=true, bool IsLarge=true)
+        {
+            int Limit = (IsAdd) ? Scroll.Maximum : Scroll.Minimum;
+            int Delta = (IsLarge) ? Scroll.LargeChange : Scroll.SmallChange;
+            if(!IsAdd) Delta = -Delta;
+
+            int NewValue = Scroll.Value + Delta;
+
+            if( (IsAdd && (NewValue>Limit)) || (!IsAdd && (NewValue<Limit)) ) NewValue = Limit;
+            Scroll.Value = NewValue;
+            Panel.PerformLayout();
+        }
+
+        protected void ScrollPageDown()
+        {
+            bool IsAdd = true;
+            bool IsLarge = true;
+            ScrollAny(pnlContent, pnlContent.VerticalScroll, IsAdd, IsLarge);
+        }
+
+        protected void ScrollPageUp()
+        {
+            bool IsAdd = false;
+            bool IsLarge = true;
+            ScrollAny(pnlContent, pnlContent.VerticalScroll, IsAdd, IsLarge);
+        }
+
+        protected void ScrollDown()
+        {
+            bool IsAdd = true;
+            bool IsLarge = false;
+            ScrollAny(pnlContent, pnlContent.VerticalScroll, IsAdd, IsLarge);
+        }
+
+        protected void ScrollUp()
+        {
+            bool IsAdd = false;
+            bool IsLarge = false;
+            ScrollAny(pnlContent, pnlContent.VerticalScroll, IsAdd, IsLarge);
+        }
+
+        protected void ScrollLeft()
+        {
+            bool IsAdd = false;
+            bool IsLarge = false;
+            ScrollAny(pnlContent, pnlContent.HorizontalScroll, IsAdd, IsLarge);
+        }
+
+        protected void ScrollRight()
+        {
+            bool IsAdd = true;
+            bool IsLarge = false;
+            ScrollAny(pnlContent, pnlContent.HorizontalScroll, IsAdd, IsLarge);
         }
     }
 }

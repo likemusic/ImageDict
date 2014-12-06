@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\SelectablePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Entity\DictDataSettings.cs" />
     <Compile Include="Entity\EnvData.cs" />
     <Compile Include="Entity\DictData.cs" />

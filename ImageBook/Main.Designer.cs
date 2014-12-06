@@ -133,7 +133,9 @@
             this.pnlContent.Location = new System.Drawing.Point(0, 80);
             this.pnlContent.Name = "pnlContent";
             this.pnlContent.Size = new System.Drawing.Size(594, 182);
-            this.pnlContent.TabIndex = 2;
+            this.pnlContent.TabIndex = 0;
+            this.pnlContent.TabStop = true;
+            this.pnlContent.Click += new System.EventHandler(this.pnlContent_Click);
             this.pnlContent.Resize += new System.EventHandler(this.pnlContent_Resize);
             // 
             // Main
