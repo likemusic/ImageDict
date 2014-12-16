@@ -49,10 +49,10 @@ namespace ImageDict
         private void tbSearch_TextChanged(object sender, EventArgs e)
         {
             var TextBox = sender as TextBox;
-            int PageNumber;
-            string ImageFilename = DictHelper.GetFilenameBySearchString(TextBox.Text, EnvData.DictData, out PageNumber);
+            int PageNumber, ImageNumber, ImagePart;
+            string ImageFilename = DictHelper.GetFilenameBySearchString(TextBox.Text, EnvData.DictData, out PageNumber, out ImageNumber, out ImagePart);
             EnvData.CurrentPage = PageNumber;
-            ShowImageByFilename(ImageFilename);
+            ShowImageByFilenameAndPartNum(ImageFilename, ImagePart, EnvData.DictData.Settings.WordsPerFile);
         }
 
         private void btLitAE_Click(object sender, EventArgs e)
@@ -77,12 +77,13 @@ namespace ImageDict
         #endregion
 
         #region Helper Funcs
-        protected void ShowImageByFilename(string Filename)
+        protected void ShowImageByFilenameAndPartNum(string Filename, int PartNum, int TotalParts)
         {
             try
             {
-                pbContent.Image = Image.FromFile(Filename);
-                //button1.Image = Image.FromFile(Filename);
+                Image Image = GetImageByFilenameAndPartNum(Filename, PartNum, TotalParts);
+                pbContent.Image = Image;
+                //button1.Image = Image;
                 CenterPictureBox();
             }
             catch (Exception Ex)
@@ -91,10 +92,27 @@ namespace ImageDict
             }
         }
 
+        protected Image GetImageByFilenameAndPartNum(string Filename, int PartNum, int TotalParts)
+        {
+            Bitmap src = Image.FromFile(Filename) as Bitmap;
+            if (TotalParts == 1) return src;
+
+            int PartSize = src.Width / TotalParts;
+            Rectangle cropRect = new Rectangle(PartNum * PartSize, 0, PartSize, src.Height);
+
+            Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
+            using (var g = Graphics.FromImage(target))
+            {
+                g.DrawImageUnscaledAndClipped(src, new Rectangle(0, 0, target.Width, target.Height));
+            }
+            return target;
+        }
+
         protected void ShowImageByPageNum(int PageNum)
         {
-            string Filename = DictHelper.GetFilenameByPageNumber(PageNum, EnvData.DictData);
-            ShowImageByFilename(Filename);
+            int ImageNumber, ImagePart;
+            string Filename = DictHelper.GetFilenameByPageNumber(PageNum, EnvData.DictData, out ImageNumber, out ImagePart);
+            ShowImageByFilenameAndPartNum(Filename, ImagePart, EnvData.DictData.Settings.PagesPerFile);
         }
 
         protected void CenterPictureBox()
@@ -114,9 +132,9 @@ namespace ImageDict
         private void btPrev_Click(object sender, EventArgs e)
         {
             int CurrentPage = EnvData.CurrentPage;
-            int MinPage = EnvData.DictData.MinPage;
+            int MinPage = EnvData.DictData.Settings.MinPage;
 
-            if(CurrentPage == EnvData.DictData.MaxPage) btNext.Enabled = true;
+            if(CurrentPage == EnvData.DictData.Settings.MaxPage) btNext.Enabled = true;
 
             CurrentPage--;
             if (CurrentPage < MinPage) CurrentPage = MinPage;
@@ -128,9 +146,9 @@ namespace ImageDict
         private void btNext_Click(object sender, EventArgs e)
         {
             int CurrentPage = EnvData.CurrentPage;
-            int MaxPage = EnvData.DictData.MaxPage;
+            int MaxPage = EnvData.DictData.Settings.MaxPage;
 
-            if (CurrentPage == EnvData.DictData.MinPage) btPrev.Enabled = true;
+            if (CurrentPage == EnvData.DictData.Settings.MinPage) btPrev.Enabled = true;
 
             CurrentPage++;
             if (CurrentPage > MaxPage) CurrentPage = MaxPage;

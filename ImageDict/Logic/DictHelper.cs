@@ -16,14 +16,26 @@ namespace ImageDict.Logic
 
             var ContentsList = LoadContentsListFromTxtFile(ContentFilename);
             DictDataSettings DictDataSettings = GetDictDataSettings(Directory);
+          
+            int FilesCountForContent = (int) Math.Ceiling((double) (ContentsList.Count / DictDataSettings.WordsPerFile));
+            
+            int MaxPageByContent =  FilesCountForContent * DictDataSettings.PagesPerFile + DictDataSettings.StartDictPage;
+            int MaxPage = MaxPageByContent;
+            int MaxFileNumberByMaxPageByContent = (int) Math.Ceiling((double) (MaxPageByContent - DictDataSettings.MinPage) / DictDataSettings.PagesPerFile) + DictDataSettings.MinFileNumber;
+
+            if ((DictDataSettings.MaxFileNumber > MaxFileNumberByMaxPageByContent) || (DictDataSettings.MaxFileNumber == 0)) DictDataSettings.MaxFileNumber = MaxFileNumberByMaxPageByContent;
+            else
+            {
+                MaxPage = (DictDataSettings.MaxFileNumber - DictDataSettings.MinFileNumber + 1) * DictDataSettings.PagesPerFile + DictDataSettings.MinPage - 1;
+            }
+
+            DictDataSettings.MaxPage = MaxPage;
+
             var Ret = new DictData()
             {
                 Contents = ContentsList,
-                FileFormatString = DictDataSettings.FileFormatString,
-                SourceDir = Directory,
-                StartOffset = DictDataSettings.StartOffset,
-                MinPage = DictDataSettings.MinPage,
-                MaxPage = (DictDataSettings.MaxPage == 0) ? (DictDataSettings.MinPage + ContentsList.Count) : DictDataSettings.MaxPage
+                Settings = DictDataSettings,
+                SourceDir = Directory
             };
             return Ret;
         }
@@ -36,7 +48,7 @@ namespace ImageDict.Logic
             return Ret;
         }
 
-        public string GetFilenameBySearchString(string SearchString, DictData DictData, out int PageNumber)
+        public string GetFilenameBySearchString(string SearchString, DictData DictData, out int PageNumber, out int ImageNumber, out int ImagePart)
         {
             SearchString = SearchString.Trim().ToUpper();
             Dictionary<string, int> Content = DictData.Contents;
@@ -52,16 +64,35 @@ namespace ImageDict.Logic
                 if (Find.Key == null) StopSearch = true;
                 else SaveNumber = Find.Value;
             }
-            SaveNumber += DictData.StartOffset;
+            
+            var Settings = DictData.Settings;
+            int StringIndex = SaveNumber;//номер найденной строки в списке строк
 
-            string Filename = GetFilenameByPageNumber(SaveNumber, DictData);
-            PageNumber = SaveNumber;
+            float FileOffset = StringIndex / Settings.WordsPerFile; //смещение строки в файлах (относительно первого файла с контентом из списка)
+            int PageOffset = (int)(FileOffset * Settings.PagesPerFile); //смещение строки в страницах (относительно первой страницы с контентом из списка)
+            PageNumber = Settings.StartDictPage + PageOffset;//номер страницы
+            string Filename = GetFilenameByPageNumber(PageNumber, DictData, out ImageNumber, out ImagePart);
             return Filename;
         }
 
-        public string GetFilenameByPageNumber(int PageNumber, DictData DictData)
+        public string GetFilenameByPageNumber(int PageNumber, DictData DictData, out int ImageNumber, out int ImagePart)
         {
-            string Filename = PageNumber.ToString(DictData.FileFormatString) + ".jpg";
+            var Settings = DictData.Settings;
+            
+            int OffsetInPages = PageNumber - Settings.MinPage;//смещение в страницах (относительно первой имеющейся страницы)
+            float OffsetInFiles = OffsetInPages / Settings.PagesPerFile;//смещение в файлах (относительно первого имеющегося файла)
+            float FloatImageNumber = OffsetInFiles + Settings.MinFileNumber;//номер файла с дробной частью.
+            ImageNumber = (int)FloatImageNumber;//целочисленный номер файла
+            float FloatPart = FloatImageNumber - ImageNumber;//дробный остаток от номера страницы
+            ImagePart = (int)(FloatPart * Settings.PagesPerFile);//номер части страницы
+
+            string Filename = GetFilenameByFileNumber(ImageNumber, DictData);
+            return Filename;
+        }
+
+        public string GetFilenameByFileNumber(int PageNumber, DictData DictData)
+        {
+            string Filename = PageNumber.ToString(DictData.Settings.FileFormatString) + ".jpg";
             Filename = Path.Combine(DictData.SourceDir, Filename);
             return Filename;
         }
@@ -80,7 +111,7 @@ namespace ImageDict.Logic
                 Ret = new DictDataSettings
                 {
                     FileFormatString = DefultSettings.DefaultFileFormatString,
-                    StartOffset = DefultSettings.DefaultStartOffset
+                    StartDictPage = DefultSettings.DefaultStartOffset
                 };
                 //JsonSerializer.Serialize<DictDataSettings>(Ret, Filename);
             }
