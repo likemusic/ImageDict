@@ -45,13 +45,12 @@ namespace ImageDict.Logic
             string CurrentSearchString = String.Empty;
             int SearchStringLength = SearchString.Length;
             int SaveNumber = 0;
-            int NewNumber = 0;
             for (var i = 0; (i < SearchStringLength) && (!StopSearch); i++)
             {
                 CurrentSearchString = SearchString.Substring(0, i + 1);
-                NewNumber = Content.Skip(SaveNumber).FirstOrDefault(item => item.Key.StartsWith(CurrentSearchString)).Value;
-                if (NewNumber == 0) StopSearch = true;
-                else SaveNumber = NewNumber;
+                var Find = Content.Skip(SaveNumber).FirstOrDefault(item => item.Key.StartsWith(CurrentSearchString));
+                if (Find.Key == null) StopSearch = true;
+                else SaveNumber = Find.Value;
             }
             SaveNumber += DictData.StartOffset;
 
