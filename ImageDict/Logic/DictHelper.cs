@@ -31,7 +31,7 @@ namespace ImageDict.Logic
         public Dictionary<string, int> LoadContentsListFromTxtFile(string Filename)
         {
             var FileLines = File.ReadLines(Filename);
-            var Ret = FileLines.Select((value, index) => new { value, index })
+            var Ret = FileLines.Select((pvalue, index) => new { value = pvalue.ToUpper(), index })
                 .ToDictionary(pair => pair.value, pair => pair.index);
             return Ret;
         }
