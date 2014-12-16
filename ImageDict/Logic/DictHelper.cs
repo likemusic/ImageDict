@@ -68,7 +68,7 @@ namespace ImageDict.Logic
             var Settings = DictData.Settings;
             int StringIndex = SaveNumber;//номер найденной строки в списке строк
 
-            float FileOffset = StringIndex / Settings.WordsPerFile; //смещение строки в файлах (относительно первого файла с контентом из списка)
+            float FileOffset = (float)StringIndex / Settings.WordsPerFile; //смещение строки в файлах (относительно первого файла с контентом из списка)
             int PageOffset = (int)(FileOffset * Settings.PagesPerFile); //смещение строки в страницах (относительно первой страницы с контентом из списка)
             PageNumber = Settings.StartDictPage + PageOffset;//номер страницы
             string Filename = GetFilenameByPageNumber(PageNumber, DictData, out ImageNumber, out ImagePart);
@@ -80,7 +80,7 @@ namespace ImageDict.Logic
             var Settings = DictData.Settings;
             
             int OffsetInPages = PageNumber - Settings.MinPage;//смещение в страницах (относительно первой имеющейся страницы)
-            float OffsetInFiles = OffsetInPages / Settings.PagesPerFile;//смещение в файлах (относительно первого имеющегося файла)
+            float OffsetInFiles = (float) OffsetInPages / Settings.PagesPerFile;//смещение в файлах (относительно первого имеющегося файла)
             float FloatImageNumber = OffsetInFiles + Settings.MinFileNumber;//номер файла с дробной частью.
             ImageNumber = (int)FloatImageNumber;//целочисленный номер файла
             float FloatPart = FloatImageNumber - ImageNumber;//дробный остаток от номера страницы

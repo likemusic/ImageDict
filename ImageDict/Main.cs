@@ -103,7 +103,7 @@ namespace ImageDict
             Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
             using (var g = Graphics.FromImage(target))
             {
-                g.DrawImageUnscaledAndClipped(src, new Rectangle(0, 0, target.Width, target.Height));
+                g.DrawImage(src, new Rectangle(0, 0, target.Width, target.Height),cropRect,GraphicsUnit.Pixel);
             }
             return target;
         }
