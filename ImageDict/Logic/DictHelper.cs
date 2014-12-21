@@ -92,22 +92,32 @@ namespace ImageDict.Logic
             string FindedString = String.Empty;
 
             int SearchStringLength = SearchString.Length;
-            int MathedIndex = -1;
+            int MatchedIndex = -1;
             int i;
             for(i = 0; (i < SearchStringLength) && (!StopSearch); i++)
             {
                 CurrentSearchString = SearchString.Substring(0, i + 1);
-                var Find = Content.Skip(MathedIndex).FirstOrDefault(item => item.Key.StartsWith(CurrentSearchString));
+                var Find = Content.Skip(MatchedIndex).FirstOrDefault(item => item.Key.StartsWith(CurrentSearchString));
                 if (Find.Key == null) { StopSearch = true; }
                 else
                 {
-                    MathedIndex = Find.Value;
+                    MatchedIndex = Find.Value;
                     FindedString = Find.Key;
                     MatchedString = CurrentSearchString;
                 }
             }
 
-            if (MathedIndex != -1)//есть совпадение хотя бы одной буквы
+            if (String.Compare(SearchString, FindedString) < 0)
+            {
+                if (!HaveContentHaveEnds) MatchedIndex--;
+                else
+                {
+                    string PrevEndsStr = ContentEnds.ElementAt(MatchedIndex - 1).Key;
+                    if (String.Compare(SearchString, PrevEndsStr) <= 0) MatchedIndex--;
+                }
+            }
+                /*
+            if (MatchedIndex != -1)//есть совпадение хотя бы одной буквы
             {
                 if (FindedString != SearchString)//найденная строка и искомая отличаются
                 {
@@ -124,11 +134,11 @@ namespace ImageDict.Logic
                     {
                         if (String.Compare(SearchString, FindedString) < 0)
                         {
-                            if (!HaveContentHaveEnds) MathedIndex--;
+                            if (!HaveContentHaveEnds) MatchedIndex--;
                             else
                             {
-                                string PrevEndsStr = ContentEnds.ElementAt(MathedIndex - 1).Key;
-                                if (String.Compare(SearchString, PrevEndsStr) < 0) MathedIndex--;
+                                string PrevEndsStr = ContentEnds.ElementAt(MatchedIndex - 1).Key;
+                                if (String.Compare(SearchString, PrevEndsStr) < 0) MatchedIndex--;
                             }
                         }
                     }
@@ -138,20 +148,21 @@ namespace ImageDict.Logic
                         // - найденное больше искомого - страницу назад
                         if (FindedString.Length > SearchStringLength)
                         {
-                            if (!HaveContentHaveEnds) MathedIndex--;
+                            if (!HaveContentHaveEnds) MatchedIndex--;
                             else
                             {
-                                string PrevEndsStr = ContentEnds.ElementAt(MathedIndex - 1).Key;
-                                if (String.Compare(SearchString, PrevEndsStr) < 0) MathedIndex--;
+                                string PrevEndsStr = ContentEnds.ElementAt(MatchedIndex - 1).Key;
+                                if (String.Compare(SearchString, PrevEndsStr) < 0) MatchedIndex--;
                             }
                         }
                     }
                 }
             }
-            if(MathedIndex < 0) MathedIndex = 0;//нету совпадения ни одной буквы
+                 * */
+            if (MatchedIndex < 0) MatchedIndex = 0;//нету совпадения ни одной буквы
            
             var Settings = DictData.Settings;
-            int StringIndex = MathedIndex;//номер найденной строки в списке строк
+            int StringIndex = MatchedIndex;//номер найденной строки в списке строк
 
             float FileOffset = (float)StringIndex / Settings.WordsPerFile; //смещение строки в файлах (относительно первого файла с контентом из списка)
             int PageOffset = (int)(FileOffset * Settings.PagesPerFile); //смещение строки в страницах (относительно первой страницы с контентом из списка)
