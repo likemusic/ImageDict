@@ -55,18 +55,54 @@ namespace ImageDict.Logic
 
             bool StopSearch = false;
             string CurrentSearchString = String.Empty;
+            string MatchedString = String.Empty;
+            string FindedString = String.Empty;
+
             int SearchStringLength = SearchString.Length;
-            int SaveNumber = 0;
-            for (var i = 0; (i < SearchStringLength) && (!StopSearch); i++)
+            int MathedIndex = -1;
+            int i;
+            for(i = 0; (i < SearchStringLength) && (!StopSearch); i++)
             {
                 CurrentSearchString = SearchString.Substring(0, i + 1);
-                var Find = Content.Skip(SaveNumber).FirstOrDefault(item => item.Key.StartsWith(CurrentSearchString));
-                if (Find.Key == null) StopSearch = true;
-                else SaveNumber = Find.Value;
+                var Find = Content.Skip(MathedIndex).FirstOrDefault(item => item.Key.StartsWith(CurrentSearchString));
+                if (Find.Key == null) { StopSearch = true; }
+                else
+                {
+                    MathedIndex = Find.Value;
+                    FindedString = Find.Key;
+                    MatchedString = CurrentSearchString;
+                }
             }
-            
+
+            if (MathedIndex != -1)//есть совпадение хотя бы одной буквы
+            {
+                if (FindedString != SearchString)//найденная строка и искомая отличаются
+                {
+                    //если совпавшее меньше искомого - проверяем расхождение
+                    // - найденное равно совпавшему - ничего не делаем
+                    // - найденное больше совпавшего - посимвольно проверяем расходдение пока его не найдем
+                    //если совпавшее равно искомому - 
+                    // - найденное равно искомому - ничего не делаем
+                    // - найденное больше искомого - страницу назад
+                    
+                    //если совпавшее меньше искомого - проверяем расхождение
+                    //длинна совпавшего
+                    if (MatchedString.Length < SearchStringLength)
+                    {
+                        if(String.Compare(SearchString, FindedString)<0) MathedIndex--;
+                    }
+                    //если совпавшее равно искомому - 
+                    else
+                    {
+                        // - найденное больше искомого - страницу назад
+                        if (FindedString.Length > SearchStringLength) MathedIndex--;
+                    }
+                }
+            }
+            if(MathedIndex < 0) MathedIndex = 0;//нету совпадения ни одной буквы
+           
             var Settings = DictData.Settings;
-            int StringIndex = SaveNumber;//номер найденной строки в списке строк
+            int StringIndex = MathedIndex;//номер найденной строки в списке строк
 
             float FileOffset = (float)StringIndex / Settings.WordsPerFile; //смещение строки в файлах (относительно первого файла с контентом из списка)
             int PageOffset = (int)(FileOffset * Settings.PagesPerFile); //смещение строки в страницах (относительно первой страницы с контентом из списка)
