@@ -17,5 +17,11 @@
     <Setting Name="DefaultSettingsFilename" Type="System.String" Scope="User">
       <Value Profile="(Default)">Settings.json</Value>
     </Setting>
+    <Setting Name="DefaultContentColumnSeparator" Type="System.String" Scope="User">
+      <Value Profile="(Default)">;</Value>
+    </Setting>
+    <Setting Name="DefaultContentHaveEnds" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

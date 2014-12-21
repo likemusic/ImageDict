@@ -14,11 +14,14 @@ namespace ImageDict.Entity
         public int MinFileNumber { get; set; }          //минимальный номер файла (по умолчанию - 0)
         public int MaxFileNumber { get; set; }          //максимальный номер файла (по умолчанию - 0)
 
-        public int MinPage;                             //номер страницы первого файла (по умолчанию - 0)
+        public int MinPage { get; set;}                 //номер страницы первого файла (по умолчанию - 0)
+        public int MaxPage;                             //максимальный номер, не сериализуем
 
-        public int MaxPage { get; set; }                //максимальный номер, не сериализуем
         public int StartDictPage { get; set; }          //номер страницы с которой начинается словарь (по умолчанию - 0)
 
-        public int WordsPerFile { get; set; }           //слов на страницу
+        public int WordsPerFile { get; set; }           //слов на файл
+
+        public string ContentColumnSeparator { get; set; } //разделитель для колонок
+        public bool ContentHaveEnds { get; set; } //разделитель для колонок
     }
 }

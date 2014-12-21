@@ -14,8 +14,12 @@ namespace ImageDict.Logic
             var DefaultSettings = Properties.Settings.Default;
             string ContentFilename = Path.Combine(Directory, DefaultSettings.DefaultContentsListFilename);
 
-            var ContentsList = LoadContentsListFromTxtFile(ContentFilename);
             DictDataSettings DictDataSettings = GetDictDataSettings(Directory);
+
+            var Dicts = LoadContentsListFromTxtFile(ContentFilename,DictDataSettings.ContentHaveEnds,DictDataSettings.ContentColumnSeparator);
+            var ContentsList = Dicts[0];
+            var ContentsListEnds = Dicts[1];
+
           
             int FilesCountForContent = (int) Math.Ceiling((double) (ContentsList.Count / DictDataSettings.WordsPerFile));
             
@@ -34,17 +38,44 @@ namespace ImageDict.Logic
             var Ret = new DictData()
             {
                 Contents = ContentsList,
+                ContentsEnds = ContentsListEnds,
                 Settings = DictDataSettings,
                 SourceDir = Directory
             };
             return Ret;
         }
 
-        public Dictionary<string, int> LoadContentsListFromTxtFile(string Filename)
+        public Dictionary<string, int>[] LoadContentsListFromTxtFile(string Filename, bool HaveEnds = false, string Separator = ";" )
         {
+            Dictionary<string, int> FirstDict,LastDict;
+            FirstDict = LastDict = null;
             var FileLines = File.ReadLines(Filename);
-            var Ret = FileLines.Select((pvalue, index) => new { value = pvalue.ToUpper(), index })
-                .ToDictionary(pair => pair.value, pair => pair.index);
+            if (!HaveEnds)
+            {
+                FirstDict = FileLines.Select((pvalue, index) => new { value = pvalue.ToUpper(), index })
+                    .ToDictionary(pair => pair.value, pair => pair.index);
+            }
+            else
+            {
+                FirstDict = new Dictionary<string, int>();
+                LastDict = new Dictionary<string, int>();
+
+                int i = 0;
+                foreach (var Line in FileLines)
+                {
+                    var Chunks = Line.Split(new string[] { Separator},StringSplitOptions.RemoveEmptyEntries);
+                    FirstDict.Add(Chunks[0].Trim(),i);
+                    LastDict.Add(Chunks[1].Trim(), i);
+                    i++;
+                }
+            }
+
+            var Ret = new Dictionary<string, int>[2]
+            {
+                FirstDict,
+                LastDict
+            };
+                        
             return Ret;
         }
 
@@ -52,6 +83,8 @@ namespace ImageDict.Logic
         {
             SearchString = SearchString.Trim().ToUpper();
             Dictionary<string, int> Content = DictData.Contents;
+            Dictionary<string, int> ContentEnds = DictData.ContentsEnds;
+            bool HaveContentHaveEnds = DictData.Settings.ContentHaveEnds;
 
             bool StopSearch = false;
             string CurrentSearchString = String.Empty;
@@ -89,13 +122,29 @@ namespace ImageDict.Logic
                     //длинна совпавшего
                     if (MatchedString.Length < SearchStringLength)
                     {
-                        if(String.Compare(SearchString, FindedString)<0) MathedIndex--;
+                        if (String.Compare(SearchString, FindedString) < 0)
+                        {
+                            if (!HaveContentHaveEnds) MathedIndex--;
+                            else
+                            {
+                                string PrevEndsStr = ContentEnds.ElementAt(MathedIndex - 1).Key;
+                                if (String.Compare(SearchString, PrevEndsStr) < 0) MathedIndex--;
+                            }
+                        }
                     }
                     //если совпавшее равно искомому - 
                     else
                     {
                         // - найденное больше искомого - страницу назад
-                        if (FindedString.Length > SearchStringLength) MathedIndex--;
+                        if (FindedString.Length > SearchStringLength)
+                        {
+                            if (!HaveContentHaveEnds) MathedIndex--;
+                            else
+                            {
+                                string PrevEndsStr = ContentEnds.ElementAt(MathedIndex - 1).Key;
+                                if (String.Compare(SearchString, PrevEndsStr) < 0) MathedIndex--;
+                            }
+                        }
                     }
                 }
             }
@@ -147,7 +196,9 @@ namespace ImageDict.Logic
                 Ret = new DictDataSettings
                 {
                     FileFormatString = DefultSettings.DefaultFileFormatString,
-                    StartDictPage = DefultSettings.DefaultStartOffset
+                    StartDictPage = DefultSettings.DefaultStartOffset,
+                    ContentColumnSeparator = DefultSettings.DefaultContentColumnSeparator,
+                    ContentHaveEnds = DefultSettings.DefaultContentHaveEnds
                 };
                 //JsonSerializer.Serialize<DictDataSettings>(Ret, Filename);
             }
