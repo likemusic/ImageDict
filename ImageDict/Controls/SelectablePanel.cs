@@ -9,6 +9,8 @@ namespace ImageDict.Controls
 {
     class SelectablePanel : Panel
     {
+        public event MouseEventHandler MouseWheel;
+
         public SelectablePanel()
         {
             this.SetStyle(ControlStyles.Selectable, true);
@@ -48,5 +50,20 @@ namespace ImageDict.Controls
                 ControlPaint.DrawFocusRectangle(pe.Graphics, rc);
             }
         }*/
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            if (Control.ModifierKeys == Keys.Control)
+            {
+                if (MouseWheel != null)
+                    MouseWheel(this, e);
+                //((HandledMouseEventArgs)e).Handled = true;
+                //base.OnMouseWheel(e);
+                //((HandledMouseEventArgs)e).Handled = true;
+                //MouseEventHandler handler = MouseWheel;
+                //this.MouseWheel(this, e);
+            }
+            else base.OnMouseWheel(e);
+        }
     }
 }

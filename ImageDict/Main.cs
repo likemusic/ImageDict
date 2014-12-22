@@ -39,6 +39,8 @@ namespace ImageDict
             EnvData.DictData = DictHelper.OpenFromDir(ImageDict.Properties.Settings.Default.DefaultSourceDir);
             //pnlContent.KeyPress += new KeyPressEventHandler(pnlContent_KeyPress);
             pnlContent.KeyDown += new KeyEventHandler(pnlContent_KeyDown);
+            pnlContent.MouseWheel += new MouseEventHandler(pnlContent_MouseWheel);
+
 
             HandOpenCursor = new Cursor(new System.IO.MemoryStream(Properties.Resources.HandOpen));
             HandMoveCursor = new Cursor(new System.IO.MemoryStream(Properties.Resources.HandMove));
@@ -76,6 +78,19 @@ namespace ImageDict
         private void pnlContent_Resize(object sender, EventArgs e)
         {
             CenterPictureBox();
+        }
+
+        protected void pnlContent_MouseWheel(object sender, MouseEventArgs e)
+        {
+            Control Control = (Control) sender;
+            double NewScale;
+            if (Control.ModifierKeys == Keys.Control)
+            {
+                if(e.Delta < 0 ) NewScale = EnvData.Scale / Math.Pow(EnvData.ScaleStep, Math.Abs(e.Delta/120));
+                else NewScale = EnvData.Scale * Math.Pow(EnvData.ScaleStep, Math.Abs(e.Delta/120));
+                SetNewScale(NewScale);
+                ((HandledMouseEventArgs)e).Handled = true;
+            }
         }
         #endregion
 

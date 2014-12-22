@@ -36,10 +36,10 @@
             this.btNext = new System.Windows.Forms.Button();
             this.btPrev = new System.Windows.Forms.Button();
             this.tbSearch = new System.Windows.Forms.TextBox();
-            this.pnlContent = new ImageDict.Controls.SelectablePanel();
-            this.pbContent = new System.Windows.Forms.PictureBox();
             this.btnScaleMinus = new System.Windows.Forms.Button();
             this.btnScalePlus = new System.Windows.Forms.Button();
+            this.pnlContent = new ImageDict.Controls.SelectablePanel();
+            this.pbContent = new System.Windows.Forms.PictureBox();
             this.pnlTop.SuspendLayout();
             this.pnlContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbContent)).BeginInit();
@@ -127,6 +127,7 @@
             // 
             // btPrev
             // 
+            this.btPrev.Enabled = false;
             this.btPrev.Location = new System.Drawing.Point(28, 45);
             this.btPrev.Name = "btPrev";
             this.btPrev.Size = new System.Drawing.Size(75, 23);
@@ -142,6 +143,30 @@
             this.tbSearch.Size = new System.Drawing.Size(187, 20);
             this.tbSearch.TabIndex = 0;
             this.tbSearch.TextChanged += new System.EventHandler(this.tbSearch_TextChanged);
+            // 
+            // btnScaleMinus
+            // 
+            this.btnScaleMinus.AutoSize = true;
+            this.btnScaleMinus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnScaleMinus.Location = new System.Drawing.Point(492, 12);
+            this.btnScaleMinus.Name = "btnScaleMinus";
+            this.btnScaleMinus.Size = new System.Drawing.Size(25, 23);
+            this.btnScaleMinus.TabIndex = 7;
+            this.btnScaleMinus.Text = "-";
+            this.btnScaleMinus.UseVisualStyleBackColor = true;
+            this.btnScaleMinus.Click += new System.EventHandler(this.btnScaleMinus_Click);
+            // 
+            // btnScalePlus
+            // 
+            this.btnScalePlus.AutoSize = true;
+            this.btnScalePlus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnScalePlus.Location = new System.Drawing.Point(520, 12);
+            this.btnScalePlus.Name = "btnScalePlus";
+            this.btnScalePlus.Size = new System.Drawing.Size(25, 23);
+            this.btnScalePlus.TabIndex = 8;
+            this.btnScalePlus.Text = "+";
+            this.btnScalePlus.UseVisualStyleBackColor = true;
+            this.btnScalePlus.Click += new System.EventHandler(this.btnScalePlus_Click);
             // 
             // pnlContent
             // 
@@ -170,30 +195,6 @@
             this.pbContent.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbContent_MouseDown);
             this.pbContent.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbContent_MouseMove);
             this.pbContent.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbContent_MouseUp);
-            // 
-            // btnScaleMinus
-            // 
-            this.btnScaleMinus.AutoSize = true;
-            this.btnScaleMinus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnScaleMinus.Location = new System.Drawing.Point(492, 12);
-            this.btnScaleMinus.Name = "btnScaleMinus";
-            this.btnScaleMinus.Size = new System.Drawing.Size(25, 23);
-            this.btnScaleMinus.TabIndex = 7;
-            this.btnScaleMinus.Text = "-";
-            this.btnScaleMinus.UseVisualStyleBackColor = true;
-            this.btnScaleMinus.Click += new System.EventHandler(this.btnScaleMinus_Click);
-            // 
-            // btnScalePlus
-            // 
-            this.btnScalePlus.AutoSize = true;
-            this.btnScalePlus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnScalePlus.Location = new System.Drawing.Point(520, 12);
-            this.btnScalePlus.Name = "btnScalePlus";
-            this.btnScalePlus.Size = new System.Drawing.Size(25, 23);
-            this.btnScalePlus.TabIndex = 8;
-            this.btnScalePlus.Text = "+";
-            this.btnScalePlus.UseVisualStyleBackColor = true;
-            this.btnScalePlus.Click += new System.EventHandler(this.btnScalePlus_Click);
             // 
             // Main
             // 
