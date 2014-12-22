@@ -37,17 +37,32 @@ namespace ImageDict
         {
             InitializeComponent();
             EnvData.DictData = DictHelper.OpenFromDir(ImageDict.Properties.Settings.Default.DefaultSourceDir);
-            //pnlContent.KeyPress += new KeyPressEventHandler(pnlContent_KeyPress);
-            pnlContent.KeyDown += new KeyEventHandler(pnlContent_KeyDown);
-            pnlContent.MouseWheel += new MouseEventHandler(pnlContent_MouseWheel);
-
 
             HandOpenCursor = new Cursor(new System.IO.MemoryStream(Properties.Resources.HandOpen));
             HandMoveCursor = new Cursor(new System.IO.MemoryStream(Properties.Resources.HandMove));
             pbContent.Cursor = HandOpenCursor;
 
+            //pnlContent.KeyPress += new KeyPressEventHandler(pnlContent_KeyPress);
+            pnlContent.KeyDown += new KeyEventHandler(pnlContent_KeyDown);
+            pnlContent.MouseWheel += new MouseEventHandler(pnlContent_MouseWheel);
+
             EnvData.CurrentPage = EnvData.DictData.Settings.MinPage;
+            SetPageGui(EnvData.CurrentPage);
+        }
+
+        protected void SetPage(int PageNum)
+        {
             ShowImageByPageNum(EnvData.CurrentPage);
+        }
+
+        protected void SetPageGui(int PageNum)
+        {
+            var Settings = EnvData.DictData.Settings;
+            if (PageNum == Settings.MinPage) btPrev.Enabled = false;
+            else btPrev.Enabled = true;
+
+            if (PageNum == Settings.MaxPage) btNext.Enabled = false;
+            else btNext.Enabled = true;
         }
 
         #region Controls Handlers
@@ -57,6 +72,7 @@ namespace ImageDict
             int PageNumber, ImageNumber, ImagePart;
             string ImageFilename = DictHelper.GetFilenameBySearchString(TextBox.Text, EnvData.DictData, out PageNumber, out ImageNumber, out ImagePart);
             EnvData.CurrentPage = PageNumber;
+            SetPageGui(PageNumber);
             ShowImageByFilenameAndPartNum(ImageFilename, ImagePart, EnvData.DictData.Settings.WordsPerFile);
         }
 
@@ -146,6 +162,7 @@ namespace ImageDict
             int ImageNumber, ImagePart;
             string Filename = DictHelper.GetFilenameByPageNumber(PageNum, EnvData.DictData, out ImageNumber, out ImagePart);
             ShowImageByFilenameAndPartNum(Filename, ImagePart, EnvData.DictData.Settings.PagesPerFile);
+            SetPageGui(PageNum);
         }
 
         protected void CenterPictureBox()
@@ -166,12 +183,8 @@ namespace ImageDict
         {
             int CurrentPage = EnvData.CurrentPage;
             int MinPage = EnvData.DictData.Settings.MinPage;
-
-            if(CurrentPage == EnvData.DictData.Settings.MaxPage) btNext.Enabled = true;
-
             CurrentPage--;
             if (CurrentPage < MinPage) CurrentPage = MinPage;
-            if (CurrentPage == MinPage) btPrev.Enabled = false;
             EnvData.CurrentPage = CurrentPage;
             ShowImageByPageNum(CurrentPage);
         }
