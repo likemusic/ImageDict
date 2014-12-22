@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.pnlTop = new System.Windows.Forms.Panel();
+            this.btnScalePlus = new System.Windows.Forms.Button();
+            this.btnScaleMinus = new System.Windows.Forms.Button();
             this.cbScale = new System.Windows.Forms.ComboBox();
             this.btLitA = new System.Windows.Forms.Button();
             this.btLitO = new System.Windows.Forms.Button();
@@ -36,8 +38,6 @@
             this.btNext = new System.Windows.Forms.Button();
             this.btPrev = new System.Windows.Forms.Button();
             this.tbSearch = new System.Windows.Forms.TextBox();
-            this.btnScaleMinus = new System.Windows.Forms.Button();
-            this.btnScalePlus = new System.Windows.Forms.Button();
             this.pnlContent = new ImageDict.Controls.SelectablePanel();
             this.pbContent = new System.Windows.Forms.PictureBox();
             this.pnlTop.SuspendLayout();
@@ -63,10 +63,37 @@
             this.pnlTop.Size = new System.Drawing.Size(594, 80);
             this.pnlTop.TabIndex = 0;
             // 
+            // btnScalePlus
+            // 
+            this.btnScalePlus.AutoSize = true;
+            this.btnScalePlus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnScalePlus.Location = new System.Drawing.Point(520, 12);
+            this.btnScalePlus.Name = "btnScalePlus";
+            this.btnScalePlus.Size = new System.Drawing.Size(25, 23);
+            this.btnScalePlus.TabIndex = 8;
+            this.btnScalePlus.Text = "+";
+            this.btnScalePlus.UseVisualStyleBackColor = true;
+            this.btnScalePlus.Click += new System.EventHandler(this.btnScalePlus_Click);
+            // 
+            // btnScaleMinus
+            // 
+            this.btnScaleMinus.AutoSize = true;
+            this.btnScaleMinus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnScaleMinus.Location = new System.Drawing.Point(492, 12);
+            this.btnScaleMinus.Name = "btnScaleMinus";
+            this.btnScaleMinus.Size = new System.Drawing.Size(25, 23);
+            this.btnScaleMinus.TabIndex = 7;
+            this.btnScaleMinus.Text = "-";
+            this.btnScaleMinus.UseVisualStyleBackColor = true;
+            this.btnScaleMinus.Click += new System.EventHandler(this.btnScaleMinus_Click);
+            // 
             // cbScale
             // 
             this.cbScale.FormattingEnabled = true;
             this.cbScale.Items.AddRange(new object[] {
+            "По размеру страницы",
+            "По высоте",
+            "По ширине",
             "500%",
             "250%",
             "200%",
@@ -143,30 +170,6 @@
             this.tbSearch.Size = new System.Drawing.Size(187, 20);
             this.tbSearch.TabIndex = 0;
             this.tbSearch.TextChanged += new System.EventHandler(this.tbSearch_TextChanged);
-            // 
-            // btnScaleMinus
-            // 
-            this.btnScaleMinus.AutoSize = true;
-            this.btnScaleMinus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnScaleMinus.Location = new System.Drawing.Point(492, 12);
-            this.btnScaleMinus.Name = "btnScaleMinus";
-            this.btnScaleMinus.Size = new System.Drawing.Size(25, 23);
-            this.btnScaleMinus.TabIndex = 7;
-            this.btnScaleMinus.Text = "-";
-            this.btnScaleMinus.UseVisualStyleBackColor = true;
-            this.btnScaleMinus.Click += new System.EventHandler(this.btnScaleMinus_Click);
-            // 
-            // btnScalePlus
-            // 
-            this.btnScalePlus.AutoSize = true;
-            this.btnScalePlus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnScalePlus.Location = new System.Drawing.Point(520, 12);
-            this.btnScalePlus.Name = "btnScalePlus";
-            this.btnScalePlus.Size = new System.Drawing.Size(25, 23);
-            this.btnScalePlus.TabIndex = 8;
-            this.btnScalePlus.Text = "+";
-            this.btnScalePlus.UseVisualStyleBackColor = true;
-            this.btnScalePlus.Click += new System.EventHandler(this.btnScalePlus_Click);
             // 
             // pnlContent
             // 

@@ -47,7 +47,7 @@ namespace ImageDict
             pnlContent.MouseWheel += new MouseEventHandler(pnlContent_MouseWheel);
 
             EnvData.CurrentPage = EnvData.DictData.Settings.MinPage;
-            SetPageGui(EnvData.CurrentPage);
+            SetPage(EnvData.CurrentPage);
         }
 
         protected void SetPage(int PageNum)
@@ -93,17 +93,18 @@ namespace ImageDict
 
         private void pnlContent_Resize(object sender, EventArgs e)
         {
-            CenterPictureBox();
+            ChangeScaleByValue(EnvData.Scale.Value);
         }
 
         protected void pnlContent_MouseWheel(object sender, MouseEventArgs e)
         {
             Control Control = (Control) sender;
             double NewScale;
+            if (EnvData.Scale.Type != ScaleTypeEnum.ByValue) EnvData.Scale.Type = ScaleTypeEnum.ByValue;
             if (Control.ModifierKeys == Keys.Control)
             {
-                if(e.Delta < 0 ) NewScale = EnvData.Scale / Math.Pow(EnvData.ScaleStep, Math.Abs(e.Delta/120));
-                else NewScale = EnvData.Scale * Math.Pow(EnvData.ScaleStep, Math.Abs(e.Delta/120));
+                if(e.Delta < 0 ) NewScale = EnvData.Scale.Value / Math.Pow(EnvData.ScaleStep, Math.Abs(e.Delta/120));
+                else NewScale = EnvData.Scale.Value * Math.Pow(EnvData.ScaleStep, Math.Abs(e.Delta/120));
                 SetNewScale(NewScale);
                 ((HandledMouseEventArgs)e).Handled = true;
             }
@@ -117,8 +118,7 @@ namespace ImageDict
             {
                 Image Image = GetImageByFilenameAndPartNum(Filename, PartNum, TotalParts);
                 EnvData.Image = Image;
-                pbContent.Image = GetScaledImage(EnvData.Scale, Image);
-                //button1.Image = Image;
+                pbContent.Image = GetScaledImage(Image, EnvData.Scale.Type, EnvData.Scale.Value );
                 CenterPictureBox();
             }
             catch (Exception Ex)
@@ -127,16 +127,77 @@ namespace ImageDict
             }
         }
 
-        protected Image GetScaledImage(double Scale, Image Image)
+        protected Image GetScaledImage(Image Image, ScaleTypeEnum Type, double ScaleValue)
         {
-           Bitmap src = Image as Bitmap;
+            Image ret;
+            double Scale = EnvData.Scale.Value;
+            switch (Type)
+            {
+                case ScaleTypeEnum.ByValue: ret = GetImageScaledByValue(Image, EnvData.Scale.Value); break;
+                case ScaleTypeEnum.BySize: ret = GetImageScaledBySize(Image, out Scale); break;
+                case ScaleTypeEnum.ByHeight: ret = GetImageScaledByHeight(Image, out Scale); break;
+                case ScaleTypeEnum.ByWidth: ret = GetImageScaledByWidth(Image, out Scale); break;
+                default: throw new Exception("Invalid ScaleType Value!");
+            }
+            EnvData.Scale.Value = Scale;
+            return ret;
+        }
+
+        protected Image GetImageScaledByValue(Image Image, double Scale)
+        {
+            Bitmap src = Image as Bitmap;
             int newWidth = (int) (src.Width * Scale);
             int newHeight = (int) (src.Height * Scale);
+            var ret = GetImageByHeightWidth(src, newWidth, newHeight);
+            return ret;
+        }
 
-            Bitmap target = new Bitmap(newWidth, newHeight);
+        protected Image GetImageScaledBySize(Image Image, out double Scale)
+        {
+            Bitmap src = Image as Bitmap;
+            double ScaleX = (double)pnlContent.Width / (double)src.Width;
+            double ScaleY = (double)pnlContent.Height / (double)src.Height;
+            Scale = Math.Min(ScaleX, ScaleY);
+
+            int newWidth = (int)(src.Width * Scale);
+            int newHeight = (int)(src.Height * Scale);
+
+            var ret = GetImageByHeightWidth(src, newWidth, newHeight);
+            return ret;
+        }
+
+        protected Image GetImageScaledByHeight(Image Image, out double Scale)
+        {
+            Bitmap src = Image as Bitmap;
+            double ScaleY = (double)pnlContent.Height / (double) src.Height;
+            Scale = ScaleY;
+
+            int newWidth = (int)(src.Width * Scale);
+            int newHeight = (int)(src.Height * Scale);
+
+            var ret = GetImageByHeightWidth(src, newWidth, newHeight);
+            return ret;
+        }
+
+        protected Image GetImageScaledByWidth(Image Image, out double Scale)
+        {
+            Bitmap src = Image as Bitmap;
+            double ScaleX = (double)pnlContent.Width / (double)src.Width;
+            Scale = ScaleX;
+
+            int newWidth = (int)(src.Width * Scale);
+            int newHeight = (int)(src.Height * Scale);
+
+            var ret = GetImageByHeightWidth(src, newWidth, newHeight);
+            return ret;
+        }
+
+        protected Image GetImageByHeightWidth(Bitmap SrcImage, int NewWidth, int NewHeight)
+        {
+            Bitmap target = new Bitmap(NewWidth, NewHeight);
             using (var g = Graphics.FromImage(target))
             {
-                g.DrawImage(src, new Rectangle(0, 0, target.Width, target.Height));//, cropRect, GraphicsUnit.Pixel
+                g.DrawImage(SrcImage, new Rectangle(0, 0, target.Width, target.Height));//, cropRect, GraphicsUnit.Pixel
             }
             return target;
         }
@@ -366,16 +427,28 @@ namespace ImageDict
         {
             string ScaleText = cbScale.Text.Trim().Replace("%",String.Empty);
             double ScaleInPercents;
-            if (!Double.TryParse(ScaleText, out ScaleInPercents)) return;
-            double Scale = ScaleInPercents / 100;
-            ChangeScale(Scale);
+            if (Double.TryParse(ScaleText, out ScaleInPercents))
+            {
+                double Scale = ScaleInPercents / 100;
+                ChangeScaleByValue(Scale);
+            }
+            else
+            {
+                var Settings = Properties.Settings.Default;
+                ScaleTypeEnum ScaleType = ScaleTypeEnum.ByValue;
+                if (ScaleText == Settings.ScaleBySize) { ScaleType = ScaleTypeEnum.BySize; }
+                else if (ScaleText == Settings.ScaleByHeight) ScaleType = ScaleTypeEnum.ByHeight;
+                else if (ScaleText == Settings.ScaleByWidth) ScaleType = ScaleTypeEnum.ByWidth;
+                EnvData.Scale.Type = ScaleType;
+                ChangeScaleByValue(EnvData.Scale.Value);
+            }
         }
 
-        protected void ChangeScale(double Scale)
+        protected void ChangeScaleByValue(double Scale)
         {
-            EnvData.Scale = Scale;
+            EnvData.Scale.Value = Scale;
             ImageDict.Controls.Win32Helper.SuspendPainting(pbContent.Handle);
-            pbContent.Image = GetScaledImage(Scale, EnvData.Image);
+            pbContent.Image = GetScaledImage(EnvData.Image, EnvData.Scale.Type, Scale);
             CenterPictureBox();
             ImageDict.Controls.Win32Helper.ResumePainting(pbContent.Handle);
             pnlContent.Refresh();
@@ -386,16 +459,17 @@ namespace ImageDict
             double NewScale = Scale * 100;
             NewScale = Math.Round(NewScale, 2);
             cbScale.Text = NewScale.ToString() + "%";
+            EnvData.Scale.Type = ScaleTypeEnum.ByValue;
         }
 
         private void btnScaleMinus_Click(object sender, EventArgs e)
         {
-            SetNewScale(EnvData.Scale / EnvData.ScaleStep);
+            SetNewScale(EnvData.Scale.Value / EnvData.ScaleStep);
         }
 
         private void btnScalePlus_Click(object sender, EventArgs e)
         {
-            SetNewScale(EnvData.Scale * EnvData.ScaleStep);
+            SetNewScale(EnvData.Scale.Value * EnvData.ScaleStep);
         }
     }
 }

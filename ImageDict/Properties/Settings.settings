@@ -23,5 +23,14 @@
     <Setting Name="DefaultContentHaveEnds" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="ScaleBySize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">По размеру страницы</Value>
+    </Setting>
+    <Setting Name="ScaleByHeight" Type="System.String" Scope="User">
+      <Value Profile="(Default)">По высоте</Value>
+    </Setting>
+    <Setting Name="ScaleByWidth" Type="System.String" Scope="User">
+      <Value Profile="(Default)">По ширине</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

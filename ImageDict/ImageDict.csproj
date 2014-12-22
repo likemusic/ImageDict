@@ -57,6 +57,8 @@
     <Compile Include="Entity\DictDataSettings.cs" />
     <Compile Include="Entity\EnvData.cs" />
     <Compile Include="Entity\DictData.cs" />
+    <Compile Include="Entity\Scale.cs" />
+    <Compile Include="Entity\ScaleTypeEnum.cs" />
     <Compile Include="Logic\DictHelper.cs" />
     <Compile Include="Logic\Env.cs" />
     <Compile Include="Logic\JsonSerializer.cs" />

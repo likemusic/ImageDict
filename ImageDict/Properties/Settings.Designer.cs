@@ -106,5 +106,41 @@ namespace ImageDict.Properties {
                 this["DefaultContentHaveEnds"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("По размеру страницы")]
+        public string ScaleBySize {
+            get {
+                return ((string)(this["ScaleBySize"]));
+            }
+            set {
+                this["ScaleBySize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("По высоте")]
+        public string ScaleByHeight {
+            get {
+                return ((string)(this["ScaleByHeight"]));
+            }
+            set {
+                this["ScaleByHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("По ширине")]
+        public string ScaleByWidth {
+            get {
+                return ((string)(this["ScaleByWidth"]));
+            }
+            set {
+                this["ScaleByWidth"] = value;
+            }
+        }
     }
 }
