@@ -43,6 +43,9 @@ namespace ImageDict
             HandOpenCursor = new Cursor(new System.IO.MemoryStream(Properties.Resources.HandOpen));
             HandMoveCursor = new Cursor(new System.IO.MemoryStream(Properties.Resources.HandMove));
             pbContent.Cursor = HandOpenCursor;
+
+            EnvData.CurrentPage = EnvData.DictData.Settings.MinPage;
+            ShowImageByPageNum(EnvData.CurrentPage);
         }
 
         #region Controls Handlers
@@ -82,7 +85,8 @@ namespace ImageDict
             try
             {
                 Image Image = GetImageByFilenameAndPartNum(Filename, PartNum, TotalParts);
-                pbContent.Image = Image;
+                EnvData.Image = Image;
+                pbContent.Image = GetScaledImage(EnvData.Scale, Image);
                 //button1.Image = Image;
                 CenterPictureBox();
             }
@@ -90,6 +94,20 @@ namespace ImageDict
             {
                 NotifyHelper.ShowError("Can't load image:" + Ex.Message);
             }
+        }
+
+        protected Image GetScaledImage(double Scale, Image Image)
+        {
+           Bitmap src = Image as Bitmap;
+            int newWidth = (int) (src.Width * Scale);
+            int newHeight = (int) (src.Height * Scale);
+
+            Bitmap target = new Bitmap(newWidth, newHeight);
+            using (var g = Graphics.FromImage(target))
+            {
+                g.DrawImage(src, new Rectangle(0, 0, target.Width, target.Height));//, cropRect, GraphicsUnit.Pixel
+            }
+            return target;
         }
 
         protected Image GetImageByFilenameAndPartNum(string Filename, int PartNum, int TotalParts)
@@ -314,6 +332,42 @@ namespace ImageDict
                 if (NewX != ParentPanel.HorizontalScroll.Value) ParentPanel.HorizontalScroll.Value = NewX;
                 //pnlContent.PerformLayout();
             }
+        }
+
+        private void comboBox1_TextChanged(object sender, EventArgs e)
+        {
+            string ScaleText = cbScale.Text.Trim().Replace("%",String.Empty);
+            double ScaleInPercents;
+            if (!Double.TryParse(ScaleText, out ScaleInPercents)) return;
+            double Scale = ScaleInPercents / 100;
+            ChangeScale(Scale);
+        }
+
+        protected void ChangeScale(double Scale)
+        {
+            EnvData.Scale = Scale;
+            ImageDict.Controls.Win32Helper.SuspendPainting(pbContent.Handle);
+            pbContent.Image = GetScaledImage(Scale, EnvData.Image);
+            CenterPictureBox();
+            ImageDict.Controls.Win32Helper.ResumePainting(pbContent.Handle);
+            pnlContent.Refresh();
+        }
+
+        protected void SetNewScale(double Scale)
+        {
+            double NewScale = Scale * 100;
+            NewScale = Math.Round(NewScale, 2);
+            cbScale.Text = NewScale.ToString() + "%";
+        }
+
+        private void btnScaleMinus_Click(object sender, EventArgs e)
+        {
+            SetNewScale(EnvData.Scale / EnvData.ScaleStep);
+        }
+
+        private void btnScalePlus_Click(object sender, EventArgs e)
+        {
+            SetNewScale(EnvData.Scale * EnvData.ScaleStep);
         }
     }
 }

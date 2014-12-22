@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlTop = new System.Windows.Forms.Panel();
+            this.cbScale = new System.Windows.Forms.ComboBox();
             this.btLitA = new System.Windows.Forms.Button();
             this.btLitO = new System.Windows.Forms.Button();
             this.btLitAE = new System.Windows.Forms.Button();
@@ -37,6 +38,8 @@
             this.tbSearch = new System.Windows.Forms.TextBox();
             this.pnlContent = new ImageDict.Controls.SelectablePanel();
             this.pbContent = new System.Windows.Forms.PictureBox();
+            this.btnScaleMinus = new System.Windows.Forms.Button();
+            this.btnScalePlus = new System.Windows.Forms.Button();
             this.pnlTop.SuspendLayout();
             this.pnlContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbContent)).BeginInit();
@@ -45,6 +48,9 @@
             // pnlTop
             // 
             this.pnlTop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlTop.Controls.Add(this.btnScalePlus);
+            this.pnlTop.Controls.Add(this.btnScaleMinus);
+            this.pnlTop.Controls.Add(this.cbScale);
             this.pnlTop.Controls.Add(this.btLitA);
             this.pnlTop.Controls.Add(this.btLitO);
             this.pnlTop.Controls.Add(this.btLitAE);
@@ -56,6 +62,28 @@
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Size = new System.Drawing.Size(594, 80);
             this.pnlTop.TabIndex = 0;
+            // 
+            // cbScale
+            // 
+            this.cbScale.FormattingEnabled = true;
+            this.cbScale.Items.AddRange(new object[] {
+            "500%",
+            "250%",
+            "200%",
+            "125%",
+            "100%",
+            "75%",
+            "50%",
+            "25%",
+            "20%",
+            "10%",
+            "5%"});
+            this.cbScale.Location = new System.Drawing.Point(365, 13);
+            this.cbScale.Name = "cbScale";
+            this.cbScale.Size = new System.Drawing.Size(121, 21);
+            this.cbScale.TabIndex = 6;
+            this.cbScale.Text = "100%";
+            this.cbScale.TextChanged += new System.EventHandler(this.comboBox1_TextChanged);
             // 
             // btLitA
             // 
@@ -143,6 +171,30 @@
             this.pbContent.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbContent_MouseMove);
             this.pbContent.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbContent_MouseUp);
             // 
+            // btnScaleMinus
+            // 
+            this.btnScaleMinus.AutoSize = true;
+            this.btnScaleMinus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnScaleMinus.Location = new System.Drawing.Point(492, 12);
+            this.btnScaleMinus.Name = "btnScaleMinus";
+            this.btnScaleMinus.Size = new System.Drawing.Size(25, 23);
+            this.btnScaleMinus.TabIndex = 7;
+            this.btnScaleMinus.Text = "-";
+            this.btnScaleMinus.UseVisualStyleBackColor = true;
+            this.btnScaleMinus.Click += new System.EventHandler(this.btnScaleMinus_Click);
+            // 
+            // btnScalePlus
+            // 
+            this.btnScalePlus.AutoSize = true;
+            this.btnScalePlus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnScalePlus.Location = new System.Drawing.Point(520, 12);
+            this.btnScalePlus.Name = "btnScalePlus";
+            this.btnScalePlus.Size = new System.Drawing.Size(25, 23);
+            this.btnScalePlus.TabIndex = 8;
+            this.btnScalePlus.Text = "+";
+            this.btnScalePlus.UseVisualStyleBackColor = true;
+            this.btnScalePlus.Click += new System.EventHandler(this.btnScalePlus_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -174,6 +226,9 @@
         //private ImageDict.Controls.SelectablePictureBox pbContent;
         //private System.Windows.Forms.Panel pnlContent;
         private ImageDict.Controls.SelectablePanel pnlContent;
+        private System.Windows.Forms.ComboBox cbScale;
+        private System.Windows.Forms.Button btnScalePlus;
+        private System.Windows.Forms.Button btnScaleMinus;
     }
 }
 

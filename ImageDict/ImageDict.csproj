@@ -53,6 +53,7 @@
     <Compile Include="Controls\SelectablePictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Win32Helper.cs" />
     <Compile Include="Entity\DictDataSettings.cs" />
     <Compile Include="Entity\EnvData.cs" />
     <Compile Include="Entity\DictData.cs" />
