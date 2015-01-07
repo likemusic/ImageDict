@@ -63,7 +63,8 @@ namespace ImageDict.Logic
                 int i = 0;
                 foreach (var Line in FileLines)
                 {
-                    var Chunks = Line.Split(new string[] { Separator},StringSplitOptions.RemoveEmptyEntries);
+                    string LineUpper = Line.ToUpper();
+                    var Chunks = LineUpper.Split(new string[] { Separator }, StringSplitOptions.RemoveEmptyEntries);
                     FirstDict.Add(Chunks[0].Trim(),i);
                     LastDict.Add(Chunks[1].Trim(), i);
                     i++;

@@ -118,7 +118,7 @@ namespace ImageDict
             {
                 Image Image = GetImageByFilenameAndPartNum(Filename, PartNum, TotalParts);
                 EnvData.Image = Image;
-                pbContent.Image = GetScaledImage(Image, EnvData.Scale.Type, EnvData.Scale.Value );
+                pbContent.Image = GetScaledImage(Image, EnvData.Scale.Type, EnvData.Scale.Value);
                 CenterPictureBox();
             }
             catch (Exception Ex)
@@ -145,6 +145,7 @@ namespace ImageDict
 
         protected Image GetImageScaledByValue(Image Image, double Scale)
         {
+
             Bitmap src = Image as Bitmap;
             int newWidth = (int) (src.Width * Scale);
             int newHeight = (int) (src.Height * Scale);
@@ -446,6 +447,7 @@ namespace ImageDict
 
         protected void ChangeScaleByValue(double Scale)
         {
+            if (EnvData.Image == null) return;
             EnvData.Scale.Value = Scale;
             ImageDict.Controls.Win32Helper.SuspendPainting(pbContent.Handle);
             pbContent.Image = GetScaledImage(EnvData.Image, EnvData.Scale.Type, Scale);
