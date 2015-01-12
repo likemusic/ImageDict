@@ -78,17 +78,17 @@ namespace ImageDict
 
         private void btLitAE_Click(object sender, EventArgs e)
         {
-            tbSearch.Text = tbSearch.Text.Insert(tbSearch.SelectionStart, "Æ");
+            tbSearch.Text = tbSearch.Text.Insert(tbSearch.SelectionStart, "æ");
         }
 
         private void btLitO_Click(object sender, EventArgs e)
         {
-            tbSearch.Text = tbSearch.Text.Insert(tbSearch.SelectionStart, "Ø");
+            tbSearch.Text = tbSearch.Text.Insert(tbSearch.SelectionStart, "ø");
         }
 
         private void btLitA_Click(object sender, EventArgs e)
         {
-            tbSearch.Text = tbSearch.Text.Insert(tbSearch.SelectionStart, "Å");
+            tbSearch.Text = tbSearch.Text.Insert(tbSearch.SelectionStart, "å");
         }
 
         private void pnlContent_Resize(object sender, EventArgs e)
