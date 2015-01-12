@@ -183,6 +183,7 @@
             this.pnlContent.TabIndex = 6;
             this.pnlContent.TabStop = true;
             this.pnlContent.Click += new System.EventHandler(this.pnlContent_Click);
+            this.pnlContent.MouseHover += new System.EventHandler(this.pnlContent_MouseHover);
             this.pnlContent.Resize += new System.EventHandler(this.pnlContent_Resize);
             // 
             // pbContent
@@ -196,6 +197,7 @@
             this.pbContent.TabStop = false;
             this.pbContent.Click += new System.EventHandler(this.pbContent_Click);
             this.pbContent.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbContent_MouseDown);
+            this.pbContent.MouseHover += new System.EventHandler(this.pbContent_MouseHover);
             this.pbContent.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbContent_MouseMove);
             this.pbContent.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbContent_MouseUp);
             // 

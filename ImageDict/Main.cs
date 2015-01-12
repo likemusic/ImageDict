@@ -473,5 +473,15 @@ namespace ImageDict
         {
             SetNewScale(EnvData.Scale.Value * EnvData.ScaleStep);
         }
+
+        private void pnlContent_MouseHover(object sender, EventArgs e)
+        {
+            pnlContent.Focus();
+        }
+
+        private void pbContent_MouseHover(object sender, EventArgs e)
+        {
+            pnlContent.Focus();
+        }
     }
 }
