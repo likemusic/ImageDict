@@ -87,79 +87,26 @@ namespace ImageDict.Logic
             Dictionary<string, int> ContentEnds = DictData.ContentsEnds;
             bool HaveContentHaveEnds = DictData.Settings.ContentHaveEnds;
 
-            bool StopSearch = false;
             string CurrentSearchString = String.Empty;
             string MatchedString = String.Empty;
             string FindedString = String.Empty;
 
             int SearchStringLength = SearchString.Length;
             int MatchedIndex = -1;
-            int i;
-            for(i = 0; (i < SearchStringLength) && (!StopSearch); i++)
+            var Find = Content.FirstOrDefault(item => (String.Compare(item.Key, SearchString, StringComparison.OrdinalIgnoreCase) >= 0));
+            if (Find.Key != null)
             {
-                CurrentSearchString = SearchString.Substring(0, i + 1);
-                var Find = Content.Skip(MatchedIndex).FirstOrDefault(item => item.Key.StartsWith(CurrentSearchString));
-                if (Find.Key == null) { StopSearch = true; }
-                else
-                {
-                    MatchedIndex = Find.Value;
-                    FindedString = Find.Key;
-                    MatchedString = CurrentSearchString;
-                }
-            }
+                MatchedIndex = Find.Value;
+                FindedString = Find.Key;
 
-            if (String.Compare(SearchString, FindedString) < 0)
-            {
                 if (!HaveContentHaveEnds) MatchedIndex--;
-                else
+                else if(MatchedIndex > 0)
                 {
                     string PrevEndsStr = ContentEnds.ElementAt(MatchedIndex - 1).Key;
-                    if (String.Compare(SearchString, PrevEndsStr) <= 0) MatchedIndex--;
+                    if (String.Compare(SearchString, PrevEndsStr, StringComparison.OrdinalIgnoreCase) <= 0) MatchedIndex--;
                 }
             }
-                /*
-            if (MatchedIndex != -1)//есть совпадение хотя бы одной буквы
-            {
-                if (FindedString != SearchString)//найденная строка и искомая отличаются
-                {
-                    //если совпавшее меньше искомого - проверяем расхождение
-                    // - найденное равно совпавшему - ничего не делаем
-                    // - найденное больше совпавшего - посимвольно проверяем расходдение пока его не найдем
-                    //если совпавшее равно искомому - 
-                    // - найденное равно искомому - ничего не делаем
-                    // - найденное больше искомого - страницу назад
-                    
-                    //если совпавшее меньше искомого - проверяем расхождение
-                    //длинна совпавшего
-                    if (MatchedString.Length < SearchStringLength)
-                    {
-                        if (String.Compare(SearchString, FindedString) < 0)
-                        {
-                            if (!HaveContentHaveEnds) MatchedIndex--;
-                            else
-                            {
-                                string PrevEndsStr = ContentEnds.ElementAt(MatchedIndex - 1).Key;
-                                if (String.Compare(SearchString, PrevEndsStr) < 0) MatchedIndex--;
-                            }
-                        }
-                    }
-                    //если совпавшее равно искомому - 
-                    else
-                    {
-                        // - найденное больше искомого - страницу назад
-                        if (FindedString.Length > SearchStringLength)
-                        {
-                            if (!HaveContentHaveEnds) MatchedIndex--;
-                            else
-                            {
-                                string PrevEndsStr = ContentEnds.ElementAt(MatchedIndex - 1).Key;
-                                if (String.Compare(SearchString, PrevEndsStr) < 0) MatchedIndex--;
-                            }
-                        }
-                    }
-                }
-            }
-                 * */
+                
             if (MatchedIndex < 0) MatchedIndex = 0;//нету совпадения ни одной буквы
            
             var Settings = DictData.Settings;
