@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.pnlTop = new System.Windows.Forms.Panel();
             this.btnScalePlus = new System.Windows.Forms.Button();
             this.btnScaleMinus = new System.Windows.Forms.Button();
@@ -208,6 +209,7 @@
             this.ClientSize = new System.Drawing.Size(594, 262);
             this.Controls.Add(this.pnlContent);
             this.Controls.Add(this.pnlTop);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
             this.Text = "ImageDict";
             this.pnlTop.ResumeLayout(false);
