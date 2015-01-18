@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 namespace ImageDict.Entity
 {
@@ -23,5 +24,7 @@ namespace ImageDict.Entity
 
         public string ContentColumnSeparator { get; set; } //разделитель для колонок
         public bool ContentHaveEnds { get; set; } //разделитель для колонок
+
+        public string CultureName { get; set; } //http://msdn.microsoft.com/ru-ru/goglobal/bb896001.aspx
     }
 }

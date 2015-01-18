@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 namespace ImageDict.Entity
 {
@@ -11,6 +12,8 @@ namespace ImageDict.Entity
         public Dictionary<string, int> ContentsEnds { get; set; }
 
         public DictDataSettings Settings { get; set; }
+        
+        public CultureInfo Culture { get; set; }
 
         public string SourceDir { get; set; }
     }

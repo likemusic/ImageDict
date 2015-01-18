@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ImageDict.Entity;
 using System.IO;
+using System.Globalization;
 
 namespace ImageDict.Logic
 {
@@ -35,12 +36,15 @@ namespace ImageDict.Logic
 
             DictDataSettings.MaxPage = MaxPage;
 
+            CultureInfo Culture = new CultureInfo(DictDataSettings.CultureName);
+
             var Ret = new DictData()
             {
                 Contents = ContentsList,
                 ContentsEnds = ContentsListEnds,
                 Settings = DictDataSettings,
-                SourceDir = Directory
+                SourceDir = Directory,
+                Culture = Culture
             };
             return Ret;
         }
@@ -93,7 +97,9 @@ namespace ImageDict.Logic
 
             int SearchStringLength = SearchString.Length;
             int MatchedIndex = -1;
-            var Find = Content.FirstOrDefault(item => (String.Compare(item.Key, SearchString, StringComparison.OrdinalIgnoreCase) >= 0));
+            var DictCulture =  DictData.Culture;
+            var DictCompareOptions  = CompareOptions.None;
+            var Find = Content.FirstOrDefault(item => (String.Compare(item.Key, SearchString, DictCulture, DictCompareOptions) >= 0));
             if (Find.Key != null)
             {
                 MatchedIndex = Find.Value;
@@ -103,7 +109,7 @@ namespace ImageDict.Logic
                 else if(MatchedIndex > 0)
                 {
                     string PrevEndsStr = ContentEnds.ElementAt(MatchedIndex - 1).Key;
-                    if (String.Compare(SearchString, PrevEndsStr, StringComparison.OrdinalIgnoreCase) <= 0) MatchedIndex--;
+                    if (String.Compare(SearchString, PrevEndsStr, DictCulture, DictCompareOptions) <= 0) MatchedIndex--;
                 }
             }
                 
@@ -157,10 +163,11 @@ namespace ImageDict.Logic
                     FileFormatString = DefultSettings.DefaultFileFormatString,
                     StartDictPage = DefultSettings.DefaultStartOffset,
                     ContentColumnSeparator = DefultSettings.DefaultContentColumnSeparator,
-                    ContentHaveEnds = DefultSettings.DefaultContentHaveEnds
+                    ContentHaveEnds = DefultSettings.DefaultContentHaveEnds,
+                    CultureName = String.Empty
                 };
-                //JsonSerializer.Serialize<DictDataSettings>(Ret, Filename);
             }
+            //JsonSerializer.Serialize<DictDataSettings>(Ret, Filename);
             return Ret;
         }
     }
