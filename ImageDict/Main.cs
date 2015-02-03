@@ -37,6 +37,7 @@ namespace ImageDict
         {
             InitializeComponent();
             EnvData.DictData = DictHelper.OpenFromDir(ImageDict.Properties.Settings.Default.DefaultSourceDir);
+            SetAppIcon(EnvData.DictData);
 
             HandOpenCursor = new Cursor(new System.IO.MemoryStream(Properties.Resources.HandOpen));
             HandMoveCursor = new Cursor(new System.IO.MemoryStream(Properties.Resources.HandMove));
@@ -48,6 +49,15 @@ namespace ImageDict
 
             EnvData.CurrentPage = EnvData.DictData.Settings.MinPage;
             SetPage(EnvData.CurrentPage);
+        }
+
+        protected void SetAppIcon(DictData Data)
+        {
+            string BaseDir = Properties.Settings.Default.DefaultSourceDir;
+            string IcoFilename = Properties.Settings.Default.DefaultIconName;
+            string IcoFilenameWithPath = Path.Combine(BaseDir,IcoFilename);
+            if(!File.Exists(IcoFilenameWithPath)) return;
+            this.Icon = new System.Drawing.Icon(IcoFilenameWithPath);
         }
 
         protected void SetPage(int PageNum)

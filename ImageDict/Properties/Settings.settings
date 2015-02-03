@@ -32,5 +32,8 @@
     <Setting Name="ScaleByWidth" Type="System.String" Scope="User">
       <Value Profile="(Default)">По ширине</Value>
     </Setting>
+    <Setting Name="DefaultIconName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Icon.ico</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

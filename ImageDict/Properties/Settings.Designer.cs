@@ -142,5 +142,17 @@ namespace ImageDict.Properties {
                 this["ScaleByWidth"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Icon.ico")]
+        public string DefaultIconName {
+            get {
+                return ((string)(this["DefaultIconName"]));
+            }
+            set {
+                this["DefaultIconName"] = value;
+            }
+        }
     }
 }

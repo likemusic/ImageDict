@@ -16,7 +16,6 @@ namespace ImageDict
         static void Main()
         {
             Application.ThreadException += ApplicationThreadException;
-
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
 
             Application.EnableVisualStyles();
@@ -39,7 +38,7 @@ namespace ImageDict
         {
             var reportCrash = new ReportCrash
             {
-                ToEmail = "Email address where you want to receive crash reports"
+                ToEmail = "likemusic@yandex.ru"
             };
 
             reportCrash.Send(exception);
