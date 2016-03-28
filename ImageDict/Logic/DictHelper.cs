@@ -112,8 +112,13 @@ namespace ImageDict.Logic
                     if (String.Compare(SearchString, PrevEndsStr, DictCulture, DictCompareOptions) <= 0) MatchedIndex--;
                 }
             }
-                
-            if (MatchedIndex < 0) MatchedIndex = 0;//нету совпадения ни одной буквы
+
+            if (MatchedIndex < 0)
+            {
+                MatchedIndex = Content.Count;//нету совпадения ни одной буквы
+                string PrevEndsStr = ContentEnds.ElementAt(MatchedIndex - 1).Key;
+                if (String.Compare(SearchString, PrevEndsStr, DictCulture, DictCompareOptions) <= 0) MatchedIndex--;
+            }
            
             var Settings = DictData.Settings;
             int StringIndex = MatchedIndex;//номер найденной строки в списке строк

@@ -61,7 +61,7 @@
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(594, 80);
+            this.pnlTop.Size = new System.Drawing.Size(1134, 80);
             this.pnlTop.TabIndex = 0;
             // 
             // btnScalePlus
@@ -180,7 +180,7 @@
             this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlContent.Location = new System.Drawing.Point(0, 80);
             this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Size = new System.Drawing.Size(594, 182);
+            this.pnlContent.Size = new System.Drawing.Size(1134, 567);
             this.pnlContent.TabIndex = 6;
             this.pnlContent.TabStop = true;
             this.pnlContent.Click += new System.EventHandler(this.pnlContent_Click);
@@ -206,7 +206,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(594, 262);
+            this.ClientSize = new System.Drawing.Size(1134, 647);
             this.Controls.Add(this.pnlContent);
             this.Controls.Add(this.pnlTop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
