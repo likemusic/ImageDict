@@ -28,3 +28,6 @@
 * **ContentHaveEnds** - не помню за что отвечает этот параметр))
 * **ContentColumnSeparator** - разделитель столбцов в файле-содержании Content.txt. Удобно когда словарь в 2 или более колонок на страницу.
 * **CultureName** - поределяет порядок символов в алфавите, необходим для правильного нахождения страниц с искомым словом. Например для поиска в датском словаре должен быть равен "da-DK". See [table of Language Culture Names](https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx).
+
+## Screenshot
+![ImageDict screenshot](ImageDict.png?raw=true "ImageDict screenshot")
