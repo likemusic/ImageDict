@@ -31,3 +31,11 @@
 
 ## Screenshot
 ![ImageDict screenshot](ImageDict.png?raw=true "ImageDict screenshot")
+
+## TODO
+- Отрефакторить, то что есть.
+- Удалить фиксированные датские симвлоы из GUI. Добавить окно вставки символов и добаление их в панель недавно использованных.
+- Добавить файл лицензии.
+
+## Licence
+The MIT License (MIT).
